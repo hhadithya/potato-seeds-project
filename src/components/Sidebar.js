@@ -29,7 +29,7 @@ const Sidebar = () => {
 
   return (
     <div className="flex">
-    <div className={`${open ? 'w-72' : 'w-20'} duration-300 h-screen p-5 pt-8 relative`} style={{ backgroundColor: "#ecfdf5" }}>
+    <div className={`${open ? 'w-72' : 'w-20'} duration-300 h-screen p-5 pt-8 relative bg-orange-200`}>
       {/* <IoIosArrowBack
         className={`absolute cursor-pointer -right-3 p-1 top-9 w-7 h-7 border-2 rounded-full border-green-200 ${!open && 'transform rotate-180'}`}
         style={{ color: "#052e16" }}
@@ -46,15 +46,15 @@ const Sidebar = () => {
               !open && "scale-0"
             }`}
           >
-            Soursop<br />Portal
+            Potato Seeds Portal
           </h1>
         </div>
         <ul className="pt-6 space-y-2">
           {Menus.map((Menu, index) => (
             <li
               key={index}
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-amber-100 text-sm font-medium items-center gap-x-4  
-              ${Menu.gap ? "mt-9" : "mt-2"} ${((location.pathname === Menu.path) || (location.pathname.slice(0, 8) + "s" === Menu.path))&& 'bg-amber-100'} ${
+              className={`flex  rounded-md p-2 cursor-pointer hover:bg-orange-100 text-sm font-medium items-center gap-x-4  
+              ${Menu.gap ? "mt-9" : "mt-2"} ${((location.pathname === Menu.path) || (location.pathname.slice(0, 8) + "s" === Menu.path))&& 'bg-orange-100'} ${
                 index === 0 && "bg-light-white"
               } `}
               onClick={() => navigate(Menu.path)}
@@ -68,7 +68,7 @@ const Sidebar = () => {
         </ul>
         <ul className="pt-32 space-y-2">
           <li
-            className="flex gap-x-3 items-center p-2 rounded-md hover:bg-amber-100 text-sm font-medium cursor-pointer"
+            className="flex gap-x-3 items-center p-2 rounded-md hover:bg-orange-100 text-sm font-medium cursor-pointer"
             onClick={handleLogout}
           >
             <span className="text-xl">
