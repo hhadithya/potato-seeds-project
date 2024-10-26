@@ -1,0 +1,32 @@
+.profile-list {
+    padding: 20px;
+  }
+  
+  .search-box {
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    font-size: 16px;
+  }
+  
+  .farmer-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .farmer-table th, .farmer-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .farmer-table th {
+    background-color: #f4f4f4;
+    text-align: left;
+  }
+  
+  .farmer-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
