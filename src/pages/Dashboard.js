@@ -92,7 +92,7 @@ const Dashboard = () => {
   ];
 
   useEffect(() => {
-    document.title = 'Soursop Dashboard';
+    document.title = 'Potato Seeds Dashboard';
 
     const unsubscribe = onSnapshot(
       collection(db, 'farmers'),

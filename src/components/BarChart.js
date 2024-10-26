@@ -12,9 +12,9 @@ const BarChart = (dataSet) => {
       {
         label: 'Harverst(Kg)',
         data: dataSet.dataSet,
-        backgroundColor: 'rgba(187, 247, 208, 0.4)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 0.3,
+        backgroundColor: 'rgba(255, 237, 213, 0.8)',
+        borderColor: 'rgba(251, 146, 60,  1)',
+        borderWidth: 0.4,
       },
     ],
   };
