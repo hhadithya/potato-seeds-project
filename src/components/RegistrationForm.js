@@ -76,7 +76,7 @@ const RegisterForm = () => {
         await uploadBytes(imageRef, image);
         var downloadURL = await getDownloadURL(imageRef);
       } else{
-        downloadURL = "https://firebasestorage.googleapis.com/v0/b/soursop-project.appspot.com/o/images%2Fuser.jpg?alt=media&token=b00390ea-afe3-4b54-a62f-0e1b0cdfc45c "; 
+        downloadURL = "https://firebasestorage.googleapis.com/v0/b/potato-seeds-project.appspot.com/o/images%2Fuser.jpg?alt=media&token=6ebe93c2-4a47-4ecd-8dc1-2b797d2da8f0 "; 
       }
 
       var nicType = document.getElementById('nicType').value;
