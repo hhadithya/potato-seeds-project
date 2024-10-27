@@ -33,7 +33,7 @@ const FarmerHarvestTable = () => {
           <select
             value={year}
             onChange={handleYearChange}
-            className="font-medium text-sm rounded-lg focus:outline-none focus:ring-green-500 focus:border-green-500 mt-2 mb-1"
+            className="font-medium text-sm rounded-lg focus:outline-none focus:ring-amber-500 focus:border-amber-500 mt-2 mb-1"
           >
             <option value="2024">2024</option>
           </select>
@@ -42,7 +42,7 @@ const FarmerHarvestTable = () => {
           <select
             value={month}
             onChange={handleMonthChange}
-            className="font-medium text-sm rounded-lg focus:outline-none focus:ring-green-500 focus:border-green-500 mt-2 mb-1"
+            className="font-medium text-sm rounded-lg focus:outline-none focus:ring-amber-500 focus:border-amber-500 mt-2 mb-1"
           >
             <option value="1">January</option>
             <option value="2">February</option>
@@ -61,7 +61,7 @@ const FarmerHarvestTable = () => {
       </div>
       <div className="overflow-x-auto flex flex-col justify-center items-center mt-5">
         <table className="table-auto border-collapse border border-gray-300 w-4/5 text-left">
-          <thead className="bg-emerald-50 text-base text-gray-800">
+          <thead className="bg-orange-50 text-base text-gray-800">
             <tr>
               <th className="border border-gray-300 p-2 font-medium">Date</th>
               <th className="border border-gray-300 p-2 font-medium">Time</th>

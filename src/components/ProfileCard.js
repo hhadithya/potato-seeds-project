@@ -125,7 +125,7 @@ const ProfileCard = () => {
         <>
             {loading && <div className="text-center w-full font-medium text-sm mb-10 p-3 bg-blue-100 text-blue-700 rounded " style={{marginTop: "-1.5rem"}}>{loadMessage}...</div>}
             {error && <div className="text-center text-sm mb-10 w-full p-3 bg-red-100  font-medium text-red-700 rounded" style={{marginTop: "-1.5rem"}}>{error}</div>}
-            {message && <div className="text-center text-sm mb-10 w-full p-3 bg-green-100  font-medium text-green-700 rounded" style={{marginTop: "-1.5rem"}}>{message}</div>}
+            {message && <div className="text-center text-sm mb-10 w-full p-3 bg-amber-100  font-medium text-amber-700 rounded" style={{marginTop: "-1.5rem"}}>{message}</div>}
             <div className="flex justify-center gap-10 mt-8">
                 <div
                     className="relative w-32 h-32 rounded-lg overflow-hidden"
@@ -155,7 +155,7 @@ const ProfileCard = () => {
                             name="farmerId"
                             value={profileData.farmerId}
                             onChange={handleInputChange}
-                            className="w-40 font-medium text-sm border rounded px-2 py-1 mt-1 bg-gray-50 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                            className="w-40 font-medium text-sm border rounded px-2 py-1 mt-1 bg-gray-50 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
                             readOnly
                         />
                     </div>
@@ -167,7 +167,7 @@ const ProfileCard = () => {
                             name="fullName"
                             value={profileData.fullName}
                             onChange={handleInputChange}
-                            className="w-40 font-medium text-sm border rounded px-2 py-1 mt-1 bg-gray-50 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                            className="w-40 font-medium text-sm border rounded px-2 py-1 mt-1 bg-gray-50 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
                             readOnly
                         />
                     </div>
@@ -179,7 +179,7 @@ const ProfileCard = () => {
                             name="gender"
                             value={profileData.gender}
                             onChange={handleInputChange}
-                            className="w-40 font-medium text-sm border rounded px-2 py-1 mt-1 bg-gray-50 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                            className="w-40 font-medium text-sm border rounded px-2 py-1 mt-1 bg-gray-50 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
                             readOnly
                         />
                     </div>
@@ -191,7 +191,7 @@ const ProfileCard = () => {
                             name="nicNumber"
                             value={profileData.nicNumber}
                             onChange={handleInputChange}
-                            className={`w-40 font-medium text-sm border rounded px-2 py-1 mt-1 focus:outline-none focus:ring-green-500 focus:border-green-500
+                            className={`w-40 font-medium text-sm border rounded px-2 py-1 mt-1 focus:outline-none focus:ring-amber-500 focus:border-amber-500
                                 ${isEditing ? 'bg-white' : 'bg-gray-50'}
                             `}
                             readOnly={!isEditing}
@@ -207,7 +207,7 @@ const ProfileCard = () => {
                             name="mobileNumber"
                             value={profileData.mobileNumber}
                             onChange={handleInputChange}
-                            className={`w-40 font-medium text-sm border rounded px-2 py-1 mt-1 focus:outline-none focus:ring-green-500 focus:border-green-500
+                            className={`w-40 font-medium text-sm border rounded px-2 py-1 mt-1 focus:outline-none focus:ring-amber-500 focus:border-amber-500
                                 ${isEditing ? 'bg-white' : 'bg-gray-50'}
                             `}
                             readOnly={!isEditing}
@@ -221,7 +221,7 @@ const ProfileCard = () => {
                             name="GND"
                             value={profileData.GND}
                             onChange={handleInputChange}
-                            className={`w-40 font-medium text-sm border rounded px-2 py-1 mt-1 focus:outline-none focus:ring-green-500 focus:border-green-500
+                            className={`w-40 font-medium text-sm border rounded px-2 py-1 mt-1 focus:outline-none focus:ring-amber-500 focus:border-amber-500
                                 ${isEditing ? 'bg-white' : 'bg-gray-50'}
                             `}
                             readOnly={!isEditing}
@@ -235,7 +235,7 @@ const ProfileCard = () => {
                             name="DS"
                             value={profileData.DS}
                             onChange={handleInputChange}
-                            className={`w-40 font-medium text-sm border rounded px-2 py-1 mt-1 focus:outline-none focus:ring-green-500 focus:border-green-500
+                            className={`w-40 font-medium text-sm border rounded px-2 py-1 mt-1 focus:outline-none focus:ring-amber-500 focus:border-amber-500
                                 ${isEditing ? 'bg-white' : 'bg-gray-50'}
                             `}
                             readOnly={!isEditing}
@@ -244,7 +244,7 @@ const ProfileCard = () => {
                 </div>
             </div>
             <button
-                className="ml-16 px-6 py-1 rounded-full text-sm font-medium bg-emerald-100 w-20 h-10 mb-2 hover:bg-emerald-200 duration-200"
+                className="ml-16 px-6 py-1 rounded-full text-sm font-medium bg-orange-100 w-20 h-10 mb-2 hover:bg-orange-200 duration-200"
                 onClick={toggleEdit}
             >
                 {isEditing ? 'Save' : 'Edit'}

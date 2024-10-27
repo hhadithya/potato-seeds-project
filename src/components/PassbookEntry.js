@@ -178,7 +178,7 @@ const PassbookEntry = () => {
     <div className="flex flex-col items-center p-4 mt-16">
       {loading && <div className="text-center w-full font-medium text-sm mb-10 p-3 bg-blue-100 text-blue-700 rounded " style={{marginTop: "-1.5rem"}}>Data Processing...</div>}
       {error && <div className="text-center text-sm mb-10 w-full p-3 bg-red-100  font-medium text-red-700 rounded" style={{marginTop: "-1.5rem"}}>{error}</div>}
-      {message && <div className="text-center text-sm mb-10 w-full p-3 bg-green-100  font-medium text-green-700 rounded" style={{marginTop: "-1.5rem"}}>{message}</div>}
+      {message && <div className="text-center text-sm mb-10 w-full p-3 bg-orange-100  font-medium text-orange-700 rounded" style={{marginTop: "-1.5rem"}}>{message}</div>}
       {/* Farmer ID Input */}
       <div className="flex items-center mb-4 gap-16">
         <div className="flex-col items-center mb-4">
@@ -188,7 +188,7 @@ const PassbookEntry = () => {
               type="text"
               value={farmerId}
               onChange={handleIdChange}
-              className="text-sm border p-2 rounded-md w-20 focus:outline-none focus:ring-green-500 focus:border-green-500 text-center"
+              className="text-sm border p-2 rounded-md w-20 focus:outline-none focus:ring-amber-400 focus:border-orange-500 text-center"
             />
           </div>
 
@@ -199,7 +199,7 @@ const PassbookEntry = () => {
               type="text"
               value={farmerName}
               readOnly
-              className="text-sm border p-2 rounded-md w-3/4 focus:outline-none focus:ring-green-500 focus:border-green-500"
+              className="text-sm border p-2 rounded-md w-3/4 focus:outline-none focus:ring-amber-400 focus:border-orange-500"
             />
           </div>
         </div>
@@ -215,9 +215,9 @@ const PassbookEntry = () => {
                 value={weight}
                 onChange={handleWeightChange}
                 readOnly={enableWeight}
-                className="border p-2 rounded-md text-lg w-2/5 focus:outline-none focus:ring-green-500 focus:border-green-500 text-center"
+                className="border p-2 rounded-md text-lg w-2/5 focus:outline-none focus:ring-amber-400 focus:border-orange-500 text-center"
               />
-              <button className="bg-green-200 py-0.5 px-3 rounded-lg text-md font-medium ml-2 text-gray-600 hover:bg-green-300 duration-300 text-black"
+              <button className="bg-orange-200 py-0.5 px-3 rounded-lg text-md font-medium ml-2 text-gray-600 hover:bg-orange-300 duration-300 text-black"
                 onClick={addWeight}
               >+</button>
             </div>
@@ -230,11 +230,11 @@ const PassbookEntry = () => {
       >
         <input
           type="checkbox"
-          className='w-4 h-4 text-green-600 text-base bg-green-100 border-green-300 rounded focus:ring-white cursor-pointer transition duration-100'  
+          className='w-4 h-4 text-orange-600 text-base bg-orange-100 border-orange-300 rounded focus:ring-white cursor-pointer transition duration-100'  
           onClick={handleCheckState}
           checked={checkState}
         />
-        <label className="mr-6 text-sm text-green-600">&nbsp;&nbsp;Start printing from a new page</label>
+        <label className="mr-6 text-sm text-orange-400">&nbsp;&nbsp;Start printing from a new page</label>
       </div>
 
       {/* Passbook Entry Preview */}
@@ -264,7 +264,7 @@ const PassbookEntry = () => {
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{printLine}</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{date}</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{time}</span>
-            <span style={{fontFamily:"passBookFont"}} className="text-xs">{weight}</span>
+            <span style={{fontFamily:"passBookFont"}} className="text-xs">{parseFloat(weight).toFixed(2)}</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{parseFloat(cWeightChange).toFixed(2)}</span>
           </p>
         </div>
@@ -274,8 +274,8 @@ const PassbookEntry = () => {
       <button
         onClick={handleAddEntry}
         disabled={isButtonDisabled}
-        className={`bg-green-200 py-2 px-12 rounded-lg text-base font-medium mt-5 text-gray-600 ${
-          isButtonDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-300 duration-300 text-black'
+        className={`bg-orange-200 py-2 px-12 rounded-lg text-base font-medium mt-5 text-gray-600 ${
+          isButtonDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-orange-300 duration-300 text-black'
         }`}
       >
         Add Entry

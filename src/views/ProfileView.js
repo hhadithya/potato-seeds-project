@@ -23,7 +23,7 @@ const ProfileView = () => {
             <h1 className='text-lg font-medium text-center'>Profile Info </h1>
             <ProfileCard />
           </div>
-          <div className='flex flex-col shadow-green-500 p-5 mt-10'>
+          <div className='flex flex-col shadow-amber-500 p-5 mt-10'>
             <h1 className='text-lg font-medium text-center'>Monthly Harvesting</h1>
             <FarmerHarvestTable />
           </div>

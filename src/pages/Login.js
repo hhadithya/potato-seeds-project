@@ -60,7 +60,7 @@ function Login() {
               onBlur={() => setEmailFocused(email !== '')}
               required
               placeholder={emailFocused ? '' : 'Email'}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-400 focus:border-amber-400 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-700 focus:border-amber-400 sm:text-sm"
             />
             {(email || emailFocused) && <label htmlFor="email" className="absolute left-3 -top-3.5 bg-white px-1 text-sm text-gray-700">Email</label>}
           </div>
@@ -75,12 +75,12 @@ function Login() {
               onBlur={() => setPasswordFocused(password !== '')}
               required
               placeholder={passwordFocused ? '' : 'Password'}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-400 focus:border-amber-400 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-700 focus:border-amber-400 sm:text-sm"
             />
             {(password || passwordFocused) && <label htmlFor="password" className="absolute left-3 -top-3.5 bg-white px-1 text-sm text-gray-700">Password</label>}
           </div>
           <div className="flex justify-center">
-            <button type="submit" className="w-full py-2 px-4 bg-amber-500 text-white font-semibold rounded-full hover:bg-amber-600 duration-200">Login</button>
+            <button type="submit" className="w-full py-2 px-4 bg-amber-800 text-white font-semibold rounded-full hover:bg-amber-900 duration-200">Login</button>
           </div>
         </form>
       </div>

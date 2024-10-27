@@ -53,13 +53,13 @@ const HarvestView = () => {
           <label className="text-gray-600 text-base font-medium">Date</label>
           <input
             type="date"
-            className="border rounded p-2 text-gray-600 text-sm font-medium focus:outline-none focus:ring-green-500 focus:border-green-500"
+            className="border rounded p-2 text-gray-600 text-sm font-medium focus:outline-none focus:ring-amber-500 focus:border-amber-500"
             value={date}
             onChange={handleDateChange}
           />
         </div>
         <button
-          className="px-6 py-1 rounded-full text-sm font-medium bg-emerald-100 w-24 h-10 mt-5 hover:bg-emerald-200 duration-200"
+          className="px-6 py-1 rounded-full text-sm font-medium bg-orange-100 w-24 h-10 mt-5 hover:bg-orange-200 duration-200"
           onClick={handleFilterSubmit}
         >
           Filter

@@ -32,7 +32,7 @@ const FarmerTable = ({ data }) => {
     return (
       <div className="overflow-x-auto flex flex-col justify-center items-center">
         <table className="table-auto border-collapse border border-gray-300 w-4/5 text-left">
-          <thead className="bg-emerald-50 text-base text-gray-800">
+          <thead className="bg-orange-50 text-base text-gray-800">
             <tr style={{borderRadius: '50px'}}>
               <th className="border border-gray-300 p-2 font-medium">Farmer ID</th>
               <th className="border border-gray-300 p-2 font-medium">Time</th>
@@ -65,7 +65,7 @@ const FarmerTable = ({ data }) => {
           <button 
             onClick={handlePrevPage} 
             disabled={currentPage === 1} 
-            className={`text-xs font-medium px-3 py-2 bg-emerald-100 rounded-full ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`text-xs font-medium px-3 py-2 bg-orange-100 rounded-full ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             Previous
           </button>
@@ -75,7 +75,7 @@ const FarmerTable = ({ data }) => {
           <button 
             onClick={handleNextPage} 
             disabled={currentPage === totalPages} 
-            className={`text-xs font-medium px-3 py-2 bg-emerald-100 rounded-full ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`text-xs font-medium px-3 py-2 bg-orange-100 rounded-full ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             Next
           </button>

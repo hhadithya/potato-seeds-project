@@ -15,9 +15,5 @@
 }
 
 input[type="radio"]:checked {
-    @apply bg-green-500 border-transparent;
-}
-
-input[type="radio"]:checked {
-  @apply bg-green-700 border-transparent;
+  @apply bg-amber-600 border-transparent;
 }

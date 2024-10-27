@@ -65,7 +65,7 @@ const ProfileList = () => {
             placeholder="Search by ID"
             value={searchId}
             onChange={handleSearchChange}
-            className="text-sm p-2 border border-gray-200 rounded-md w-48 z-50 focus:ring-emerald-500 focus:border-emerald-500"
+            className="text-sm p-2 border border-gray-200 rounded-md w-48 z-50 focus:ring-amber-500 focus:border-amber-500"
             style={{ marginTop: '-0.8rem', outline: 'none' }}
           />
         </div>
@@ -79,7 +79,7 @@ const ProfileList = () => {
           <div className="overflow-x-auto bg-white mt-10 flex justify-center">
             {/* Table */}
             <table className="w-11/12 table-auto text-sm">
-              <thead className="bg-emerald-50">
+              <thead className="bg-orange-100">
                 <tr>
                   <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 tracking-wider">
                     Profile

@@ -154,7 +154,7 @@ const RegisterForm = () => {
     <div className="bg-white pt-5 pl-10 pr-10 pb-10 rounded-lg w-full max-w-4xl">
       {loading && <div className="text-center  font-medium text-sm mb-4 p-3 bg-blue-100 text-blue-700 rounded">Loading...</div>}
       {error && <div className="text-sm mb-4 p-3 bg-red-100  font-medium text-red-700 rounded">{error}</div>}
-      {message && <div className="text-sm mb-4 p-3 bg-green-100  font-medium text-green-700 rounded">{message}</div>}
+      {message && <div className="text-sm mb-4 p-3 bg-amber-100  font-medium text-amber-700 rounded">{message}</div>}
       <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-10">
         <div className="flex-1">
           <div className="mb-4">
@@ -165,7 +165,7 @@ const RegisterForm = () => {
               value={formData.farmerId}
               onChange={handleChange}
               maxLength={4}
-              className="font-normal w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+              className="font-normal w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
             />
           </div>
           <div className="mb-4">
@@ -175,7 +175,7 @@ const RegisterForm = () => {
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
-              className="font-normal w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+              className="font-normal w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
             />
           </div>
           <div className="mb-4">
@@ -187,16 +187,16 @@ const RegisterForm = () => {
                 value={formData.nicNumber}
                 onChange={handleChange}
                 maxLength={lengthNIC}
-                className="font-normal w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="font-normal w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
               />
               <select 
-                className="text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
                 onChange={handleSelection}  
                 id='nicType'
               >
-                <option value="V" className="text-xs hover:bg-green-500">V</option>
-                {/* <option value="X" className="text-xs hover:bg-green-500">X</option> */}
-                <option value="New" className="text-xs hover:bg-green-500">New</option>
+                <option value="V" className="text-xs hover:bg-amber-500">V</option>
+                {/* <option value="X" className="text-xs hover:bg-amber-500">X</option> */}
+                <option value="New" className="text-xs hover:bg-amber-500">New</option>
               </select>
             </div>
           </div>
@@ -208,7 +208,7 @@ const RegisterForm = () => {
               maxLength={13}
               value={"+94 " + formData.mobileNumber}
               onChange={handleNumberChange}
-              className="font-normal w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+              className="font-normal w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
             />
           </div>
           <div className="flex items-center gap-3">
@@ -219,7 +219,7 @@ const RegisterForm = () => {
                 name="GND"
                 value={formData.GND}
                 onChange={handleChange}
-                className="font-normal w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="font-normal w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
               />
             </div>
             <div className="mb-4">
@@ -229,7 +229,7 @@ const RegisterForm = () => {
                 name="DS"
                 value={formData.DS}
                 onChange={handleChange}
-                className="font-normal w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="font-normal w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
               />
             </div>
           </div>
@@ -243,7 +243,7 @@ const RegisterForm = () => {
                 value="Male"
                 checked={formData.gender === 'Male'}
                 onChange={handleChange}
-                className="mr-2 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="mr-2 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
               />
               <label htmlFor="male" className="mr-4 text-sm font-medium">Male</label>
               <input
@@ -253,13 +253,13 @@ const RegisterForm = () => {
                 value="Female"
                 checked={formData.gender === 'Female'}
                 onChange={handleChange}
-                className="mr-2 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="mr-2 border focus:outline-none focus:ring-amber-500 focus:border-amber-500"
               />
               <label htmlFor="female" className="text-sm font-medium">Female</label>
             </div>
           </div>
-          <button type="submit" className={`w-full bg-emerald-100 px-3 py-2 rounded-lg text-base font-medium rounded-full hover:bg-emerald-200 duration-200
-            ${enableButton ? 'hover:bg-emerald-200 cursor-pointer' : 'opacity-50 cursor-not-allowed'}
+          <button type="submit" className={`w-full bg-orange-100 px-3 py-2 rounded-lg text-base font-medium rounded-full hover:bg-orange-200 duration-200
+            ${enableButton ? 'hover:bg-orange-200 cursor-pointer' : 'opacity-50 cursor-not-allowed'}
             `}>Register</button>
         </div>
         <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 p-5 rounded-lg h-96">
@@ -267,7 +267,7 @@ const RegisterForm = () => {
             <label className="block text-sm text-gray-700 mb-2 font-medium">Upload your image</label>
             <input
               type="file"
-              className="w-full px-3 py-2 border rounded-lg text-sm font-medium focus:outline-none focus:ring-green-500 focus:border-green-500"
+              className="w-full px-3 py-2 border rounded-lg text-sm font-medium focus:outline-none focus:ring-amber-500 focus:border-amber-500"
               onChange={handleImageChange}
               accept=".jpg, .jpeg, .png"
               id='imageName'
