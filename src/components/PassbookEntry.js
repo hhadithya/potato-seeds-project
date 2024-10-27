@@ -21,6 +21,7 @@ const PassbookEntry = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [enableWeight, setEnableWeight] = useState(true);
+  const [accumualateWeight, setAccumualateWeight] = useState(0);
 
   // Function to fetch farmer's name from Firestore using farmerId
   const fetchFarmerName = async (id) => {
@@ -36,7 +37,7 @@ const PassbookEntry = () => {
           if (weight) { 
             setIsButtonDisabled(false);
           }
-
+          setMessage("Farmer found!");
           console.log('Farmer data:', docSnap.data());
           setFarmerName(docSnap.data().fullName);
           setLineNumberChange(docSnap.data()["line-num"]);
@@ -70,7 +71,8 @@ const PassbookEntry = () => {
     const inputWeight = e.target.value;
     setWeight(inputWeight);
 
-    setCWeightChange(parseFloat(inputWeight) + cWeight);
+    // setCWeightChange(parseFloat(inputWeight) + cWeight);
+    // console.log("here");
 
     if (inputWeight) {
       const currentDate = new Date();
@@ -81,7 +83,15 @@ const PassbookEntry = () => {
     }
 
     // console.log(fa);
-    setIsButtonDisabled(!inputWeight);
+  };
+
+  const addWeight = () => {
+    // console.log(weight);
+    setAccumualateWeight(parseFloat(weight) + accumualateWeight);
+    setCWeightChange(parseFloat(weight) + accumualateWeight + cWeight);
+    setWeight('');
+    setIsButtonDisabled(false);
+    // console.log(accumualateWeight);
   };
 
 
@@ -109,7 +119,7 @@ const PassbookEntry = () => {
     try {
       await set(farmerRef, {
         time: `${time}`,
-        value: parseFloat(parseFloat(weight).toFixed(2)),
+        value: parseFloat(parseFloat(accumualateWeight).toFixed(2)),
       });
 
       await updateDoc(docRef, {
@@ -124,6 +134,13 @@ const PassbookEntry = () => {
       handlePrint(); // Call print function
 
       setMessage('Data successfully added!');
+      setAccumualateWeight(0);
+      setWeight('');
+      setDate('');
+      setTime('');
+      setIsButtonDisabled(true);
+      setCheckState(false);
+
 
     } catch (error) {
       console.error('Error adding document: ', error);
@@ -132,9 +149,6 @@ const PassbookEntry = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const addWeight = () => {
   };
 
   const handlePrint = () => {
@@ -238,7 +252,7 @@ const PassbookEntry = () => {
       </div>
 
       {/* Passbook Entry Preview */}
-      {weight ? (
+      {accumualateWeight ? (
         <div 
           className="mb-4 text-sm text-gray-500 bg-gray-50 p-4 rounded border font-normal w-3/4 flex-col print-area"   
         >
@@ -264,7 +278,7 @@ const PassbookEntry = () => {
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{printLine}</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{date}</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{time}</span>
-            <span style={{fontFamily:"passBookFont"}} className="text-xs">{parseFloat(weight).toFixed(2)}</span>
+            <span style={{fontFamily:"passBookFont"}} className="text-xs">{parseFloat(accumualateWeight).toFixed(2)}</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{parseFloat(cWeightChange).toFixed(2)}</span>
           </p>
         </div>
