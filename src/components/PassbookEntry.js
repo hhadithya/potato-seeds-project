@@ -77,7 +77,7 @@ const PassbookEntry = () => {
     if (inputWeight) {
       const currentDate = new Date();
       const formattedDate = currentDate.toLocaleDateString();
-      const formattedTime = currentDate.toLocaleTimeString();
+      const formattedTime = currentDate.toTimeString().slice(0, 8);
       setDate(formattedDate);
       setTime(formattedTime);
     }
