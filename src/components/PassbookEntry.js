@@ -22,6 +22,7 @@ const PassbookEntry = () => {
   const [error, setError] = useState('');
   const [enableWeight, setEnableWeight] = useState(true);
   const [accumualateWeight, setAccumualateWeight] = useState(0);
+  const [checkWeight, setCheckWeight] = useState(true);
 
   // Function to fetch farmer's name from Firestore using farmerId
   const fetchFarmerName = async (id) => {
@@ -37,6 +38,7 @@ const PassbookEntry = () => {
           if (weight) { 
             setIsButtonDisabled(false);
           }
+          setError('');
           setMessage("Farmer found!");
           console.log('Farmer data:', docSnap.data());
           setFarmerName(docSnap.data().fullName);
@@ -80,6 +82,7 @@ const PassbookEntry = () => {
       const formattedTime = currentDate.toTimeString().slice(0, 8);
       setDate(formattedDate);
       setTime(formattedTime);
+      setCheckWeight(false);
     }
 
     // console.log(fa);
@@ -91,6 +94,7 @@ const PassbookEntry = () => {
     setCWeightChange(parseFloat(weight) + accumualateWeight + cWeight);
     setWeight('');
     setIsButtonDisabled(false);
+    setCheckWeight(true);
     // console.log(accumualateWeight);
   };
 
@@ -231,8 +235,9 @@ const PassbookEntry = () => {
                 readOnly={enableWeight}
                 className="border p-2 rounded-md text-lg w-2/5 focus:outline-none focus:ring-amber-400 focus:border-orange-500 text-center"
               />
-              <button className="bg-orange-200 py-0.5 px-3 rounded-lg text-md font-medium ml-2 text-gray-600 hover:bg-orange-300 duration-300 text-black"
+              <button className={`bg-orange-200 py-0.5 px-3 rounded-lg text-md font-medium ml-2 text-gray-600 text-black ${ checkWeight ? 'opacity-50' : 'hover:bg-orange-300 duration-300'}`}
                 onClick={addWeight}
+                disabled={checkWeight}
               >+</button>
             </div>
           </div>
