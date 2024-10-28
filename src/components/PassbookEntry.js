@@ -198,7 +198,7 @@ const PassbookEntry = () => {
       {error && <div className="text-center text-sm mb-10 w-full p-3 bg-red-100  font-medium text-red-700 rounded" style={{marginTop: "-1.5rem"}}>{error}</div>}
       {message && <div className="text-center text-sm mb-10 w-full p-3 bg-orange-100  font-medium text-orange-700 rounded" style={{marginTop: "-1.5rem"}}>{message}</div>}
       {/* Farmer ID Input */}
-      <div className="flex items-center mb-4 gap-16">
+      <div className="flex ml-16 items-center mb-4 gap-16">
         <div className="flex-col items-center mb-4">
           <div className="flex items-center mb-4 text-base font-medium">
             <label className="mr-4">Farmer ID: </label>
@@ -210,7 +210,6 @@ const PassbookEntry = () => {
             />
           </div>
 
-          {/* Farmer Name (Auto-filled) */}
           <div className="flex items-center mb-4 text-base font-medium">
             <label className="mr-6">Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
             <input
@@ -226,7 +225,7 @@ const PassbookEntry = () => {
         {/* Weight Input */}
 
           <div className="flex items-center mb-4 flex-col font-medium">
-            <label className="mr-6 text-base mb-1" style={{marginLeft: "-10rem"}}>Weight (kg)</label>
+            <label className="mr-6 text-base mb-1" style={{marginLeft: "-11rem"}}>Weight (kg)</label>
             <div className='flex items-center'>
               <input
                 type="number"
