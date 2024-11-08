@@ -3,6 +3,7 @@ import "../stylesheets/print.css";
 import { ref, set } from 'firebase/database';
 import { realTimeDB, db } from '../firebase/firebaseConfig'; 
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { tokenGen, sendSMS } from '../BackendFunctions';
 
 const PassbookEntry = () => {
   const [farmerId, setFarmerId] = useState('');
@@ -23,6 +24,8 @@ const PassbookEntry = () => {
   const [enableWeight, setEnableWeight] = useState(true);
   const [accumualateWeight, setAccumualateWeight] = useState(0);
   const [checkWeight, setCheckWeight] = useState(true);
+  const [number, setNumber] = useState('');
+  const [transactionID, setTransactionID] = useState('');
 
   // Function to fetch farmer's name from Firestore using farmerId
   const fetchFarmerName = async (id) => {
@@ -46,6 +49,8 @@ const PassbookEntry = () => {
           setLineNumber(docSnap.data()["line-num"]);
           setCWeight(docSnap.data()["c-weight"]);
           setPrintLine(docSnap.data()["print-line"]);
+          setNumber(docSnap.data().mobileNumber);
+          setTransactionID(docSnap.data().transactionID);
         } else {
           setIsButtonDisabled(true);
           setEnableWeight(true); 
@@ -120,22 +125,32 @@ const PassbookEntry = () => {
     const docRef = doc(db, 'farmers', farmerId);
     setLoading(true);
     
-    try {
-      await set(farmerRef, {
-        time: `${time}`,
-        value: parseFloat(parseFloat(accumualateWeight).toFixed(2)),
-      });
-
-      await updateDoc(docRef, {
-        "line-num": lineNumberChange + 1,
-        "c-weight": parseFloat(parseFloat(cWeightChange).toFixed(2)),
-        "print-line": printLine + 1,
+      try {
+        await set(farmerRef, {
+          time: `${time}`,
+          value: parseFloat(parseFloat(accumualateWeight).toFixed(2)),
+        });
+        
+        await updateDoc(docRef, {
+          "line-num": lineNumberChange + 1,
+          "c-weight": parseFloat(parseFloat(cWeightChange).toFixed(2)),
+          "print-line": printLine + 1,
+          transactionID: transactionID + 1
       });
 
       // console.log('Data successfully added!');
-      
-
+      tokenGen();
+      sendSMS({
+        number: number.slice(4),
+        ID: farmerId,
+        name: farmerName,
+        weight: parseFloat(parseFloat(accumualateWeight).toFixed(2)),
+        date: date,
+        time: time,
+        transaction_id: transactionID
+      });
       handlePrint(); // Call print function
+      
 
       setMessage('Data successfully added!');
       setAccumualateWeight(0);
