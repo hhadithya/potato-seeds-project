@@ -5,6 +5,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
 import { UserContext } from '../context/UserContext';
 import { getRole } from "../BackendFunctions";
+import { deleteRole } from "../BackendFunctions";
 
 const Sidebar = () => {
   // const [open, setOpen] = useState(true);
@@ -29,6 +30,7 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
+      await deleteRole({ email });
       await signOut(auth);
       setUserRole(null);
       setUserName(null);

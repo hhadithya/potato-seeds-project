@@ -120,7 +120,7 @@ const PassbookEntry = () => {
     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); 
     const day = currentDate.getDate().toString().padStart(2, '0'); 
 
-    const farmerRef = ref(realTimeDB, `${year}/${month}/${day}/${farmerId}`);
+    const farmerRef = ref(realTimeDB, `In/${year}/${month}/${day}/${farmerId}`);
 
     const docRef = doc(db, 'farmers', farmerId);
     setLoading(true);
@@ -266,6 +266,7 @@ const PassbookEntry = () => {
           className='w-4 h-4 text-orange-600 text-base bg-orange-100 border-orange-300 rounded focus:ring-white cursor-pointer transition duration-100'  
           onClick={handleCheckState}
           checked={checkState}
+          // defaultChecked={checkState}
         />
         <label className="mr-6 text-sm text-orange-400">&nbsp;&nbsp;Start printing from a new page</label>
       </div>

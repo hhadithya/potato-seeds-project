@@ -76,3 +76,21 @@ export const getRole = async ({email}) => {
         console.error('Error getting role: ', error);
     }
 };
+
+export const deleteRole = async ({email}) => {
+    try {
+        const response = await fetch(`${backendURL}/api/delete-role`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+            }),
+        });
+        const result = await response.json();
+        console.log(result);
+    } catch (error) {
+        console.error('Error deleting role: ', error);
+    }
+}
