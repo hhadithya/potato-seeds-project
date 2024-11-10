@@ -1,5 +1,7 @@
 import { ref, get } from 'firebase/database';
 import { realTimeDB } from '../firebase/firebaseConfig';
+import { db } from '../firebase/firebaseConfig';
+import { collection, query, where, getDocs } from 'firebase/firestore'; 
 
 const thisYear = new Date().getFullYear();
 const thisMonth = new Date().getMonth() + 1;
@@ -117,3 +119,27 @@ export const farmerMonthlyHarvest = async ({ farmerId, year, month }) => {
     throw error;
   }
 };
+
+export const operatorCheck = async (role, email) => {
+  try{
+    const docRef = collection(db, role);
+    const q = query(docRef, where("email", "==", email));
+    // console.log(q);
+
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      // console.log("No matching documents.");
+      return false;
+    } else {
+      // console.log("Matching documents found.");
+      return true;
+    }
+
+
+  }
+  catch (error) {
+    console.error("Error fetching operator data:", error);
+    throw error;
+  }
+}
