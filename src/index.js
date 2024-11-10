@@ -10,6 +10,7 @@ import ProfileList from './pages/ProfileList';
 import HarvestDetails from './pages/HarvestDetails';
 import AddHarvest from './pages/AddHarvest';
 import ProfileView from './views/ProfileView';
+import HarvestOut from './pages/HarvestOut';
 import { UserProvider } from './context/UserContext';
 
 const rootElement = document.getElementById('root');
@@ -35,6 +36,7 @@ root.render(
           <Route path="/profiles" element={<ProfileList />} />
           <Route path="/harvestdetails" element={<HarvestDetails />} />
           <Route path="/addHarvest" element={<AddHarvest />} />
+          <Route path="/outHarvest" element={<HarvestOut />} />
           <Route path="/profile/:id" element={<ProfileView />} />
         </Routes>
       </Router>

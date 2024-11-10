@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 // import { IoIosArrowBack } from "react-icons/io";
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
+import { UserContext } from '../context/UserContext';
 
 const Sidebar = () => {
   // const [open, setOpen] = useState(true);
+  const { setUserRole, setUserName, setSection, section, userRole } = useContext(UserContext);
   const [open] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,6 +15,10 @@ const Sidebar = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      setUserRole(null);
+      setUserName(null);
+      setSection(null);
+
       navigate('/login');
     } catch (error) {
       console.error('Error signing out:', error);
@@ -21,10 +27,11 @@ const Sidebar = () => {
 
   const Menus = [
     { title: 'Dashboard', icon: 'dashboard.svg', path: '/dashboard' },
-    { title: 'Farmer Register', icon: 'addProfiles.svg', path: '/register' },
+    { title: 'Farmer Register', icon: 'addProfiles.svg', path: '/register', section: 'In' },
     { title: 'Farmer Profiles', icon: 'profiles.svg', path: '/profiles' },
     { title: 'Harvest Details', icon: 'details.svg', path: '/harvestdetails' },
-    { title: 'Add Harvest', icon: 'register.svg', path: '/addHarvest' },
+    { title: 'Add Harvest', icon: 'register.svg', path: '/addHarvest', section: 'In' },
+    { title: 'Harvest Out', icon: 'out.svg', path: '/outHarvest', section: 'Out' },
   ];
 
   return (
@@ -50,7 +57,7 @@ const Sidebar = () => {
           </h1>
         </div>
         <ul className="pt-6 space-y-2">
-          {Menus.map((Menu, index) => (
+        {Menus.filter(menu => userRole === 'Admin' || !menu.section || menu.section === section).map((Menu, index) => (
             <li
               key={index}
               className={`flex  rounded-md p-2 cursor-pointer hover:bg-orange-100 text-sm font-medium items-center gap-x-4  

@@ -21,7 +21,7 @@ const Navbar = ({title}) => {
         <h1 className="text-xl font-medium">{title}</h1>
       }
         <div className="flex flex-col mr-24">
-          <p className="text-gray-900 font-medium" style={{marginBottom: "-6px"}}>{userName}</p>
+          <p className="text-gray-900 font-medium" style={{marginBottom: "-4px"}}>{userName}</p>
           <p className="text-gray-700 text-sm">{userRole}</p>
         </div>
       </div>

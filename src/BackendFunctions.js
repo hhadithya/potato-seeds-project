@@ -1,5 +1,5 @@
-const backendURL = 'https://soursop-backend.vercel.app';
-// const backendURL = 'http://192.168.1.76:5000';
+// const backendURL = 'https://soursop-backend.vercel.app';
+const backendURL = 'http://192.168.1.76:5000';
 
 export const tokenGen = async () => {
     try {
@@ -37,5 +37,38 @@ export const sendSMS = async ({ number, ID, name, weight, date, time, transactio
         console.log(result);
     } catch (error) {
         console.error('Error sending mail: ', error);
+    }
+};
+
+export const sendRole = async ({ role }) => {
+    try {
+        const response = await fetch(`${backendURL}/api/send-role`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                role: role,
+            }),
+        });
+        const result = await response.json();
+        console.log(result);
+    } catch (error) {
+        console.error('Error sending role: ', error);
+    }
+};
+
+export const getRole = async () => {
+    try {
+        const response = await fetch(`${backendURL}/api/get-role`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const result = await response.json();
+        console.log(result);
+    } catch (error) {
+        console.error('Error getting role: ', error);
     }
 };
