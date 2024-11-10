@@ -11,7 +11,7 @@ import { UserContext } from '../context/UserContext';
 
 
 const Dashboard = () => {
-  const { userRole } = useContext(UserContext);
+  const { userRole, userName } = useContext(UserContext);
   const [farmerCount, setFarmerCount] = useState(0);
   const [yearHarvest, setYearHarvest] = useState(0);
   const [monthHarvest, setMonthHarvest] = useState(0);
@@ -36,6 +36,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     console.log('User role:', userRole);
+    console.log('User Name:', userName);
     const fetchHarvestData = async () => {
       try {
         const result = await getHarvestData();
@@ -66,7 +67,7 @@ const Dashboard = () => {
     };
 
     fetchHarvestData();
-  }, [userRole]);
+  }, [userRole, userName]);
 
   const fetchData = async (id, title) => { 
     try {

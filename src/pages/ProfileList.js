@@ -58,15 +58,14 @@ const ProfileList = () => {
       <div className="w-72"></div>
       <div className="flex-1 p-6">
         {/* Header Section */}
-        <div className="flex justify-between items-center">
-          <div className="text-2xl font-medium"></div>
+        <div className="flex justify-between items-center float-right mr-48">
           <input
             type="text"
             placeholder="Search by ID"
             value={searchId}
             onChange={handleSearchChange}
-            className="text-sm p-2 border border-gray-200 rounded-md w-48 z-50 focus:ring-amber-500 focus:border-amber-500"
-            style={{ marginTop: '-0.8rem', outline: 'none' }}
+            className="text-sm font-normal p-2 text-gray-700 border border-gray-300 rounded-md w-32 z-50 focus:ring-amber-400 focus:border-amber-500"
+            style={{ marginTop: '-0.4rem', outline: 'none'}}
           />
         </div>
 
@@ -76,7 +75,7 @@ const ProfileList = () => {
             <Spinner /> {/* Spinner component */}
           </div>
         ) : (
-          <div className="overflow-x-auto bg-white mt-10 flex justify-center">
+          <div className="overflow-x-auto bg-white mt-20 flex justify-center">
             {/* Table */}
             <table className="w-11/12 table-auto text-sm">
               <thead className="bg-orange-100">

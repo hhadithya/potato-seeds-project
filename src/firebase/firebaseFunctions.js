@@ -124,16 +124,12 @@ export const operatorCheck = async (role, email) => {
   try{
     const docRef = collection(db, role);
     const q = query(docRef, where("email", "==", email));
-    // console.log(q);
-
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      // console.log("No matching documents.");
-      return false;
+      return {status: false, data: null};
     } else {
-      // console.log("Matching documents found.");
-      return true;
+      return {status: true, data: querySnapshot.docs[0].data().fullName};
     }
 
 

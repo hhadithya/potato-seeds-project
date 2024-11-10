@@ -16,7 +16,7 @@ function Login() {
   const [roleFocused, setRoleFocused] = useState(false);
   const [operatorSection, setOperatorSection] = useState('');
   const [operatorSectionFocused, setOperatorSectionFocused] = useState(false);
-  const { setUserRole } = useContext(UserContext);
+  const { setUserRole, setUserName } = useContext(UserContext);
 
   useEffect(() => {
     document.title = 'Potato Seeds Portal Login';
@@ -33,8 +33,8 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
-    const status = await operatorCheck(role.toLowerCase(), email);
-    if (!status) {
+    const result = await operatorCheck(role.toLowerCase(), email);
+    if (!result.status) {
       setError(`You are not an ${role}. Please check your role and try again.`);
       setTimeout(() => {
         setError('');
@@ -42,9 +42,11 @@ function Login() {
       return;
     }
 
+    setUserRole(role);
+    setUserName(result.data);
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      setUserRole(role);
       navigate('/dashboard');
     } catch (error) {
       setError('Invalid email or password. Please try again.');
