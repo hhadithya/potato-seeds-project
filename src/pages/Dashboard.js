@@ -90,6 +90,7 @@ const Dashboard = () => {
 
 
   const stats = [
+    { label: 'Total Harvest Today', value: `${0} kg` },
     { label: 'Total Harvest This Month', value: `${monthHarvest} kg` },
     { label: 'Total Harvest This Year', value: `${yearHarvest} kg` },
     { label: 'Total Farmers Registered', value: `${farmerCount}` }
@@ -145,13 +146,13 @@ const Dashboard = () => {
                 subtitle={'Month'}
               />
             </div>
-            <div className='p-7 text-xl font-semibold flex-1 mb-8'>
-              <div className="flex justify-center gap-28 mt-2">
+            <div className='p-7 font-semibold flex-1 mb-8'>
+              <div className="flex justify-center gap-24 mt-2">
                 {stats.map((stat, index) => (
                   <div key={index} className="text-center">
-                    <h3 className="font-semibold text-base w-44">{stat.label}</h3>
+                    <h3 className="font-semibold text-base w-32">{stat.label}</h3>
                     <div className="mt-2 border rounded-lg px-4 py-2">
-                      <span className="text-lg font-medium text-gray-600">{stat.value}</span>
+                      <span className="text-base font-medium text-gray-600">{stat.value}</span>
                     </div>
                   </div>
                 ))}

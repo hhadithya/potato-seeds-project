@@ -25,7 +25,7 @@ const Sidebar = () => {
 
     fetchRoleData();
 
-  }, [setUserRole]);
+  });
 
   const handleLogout = async () => {
     try {
@@ -47,6 +47,7 @@ const Sidebar = () => {
     { title: 'Harvest Details', icon: 'details.svg', path: '/harvestdetails' },
     { title: 'Add Harvest', icon: 'register.svg', path: '/addHarvest', section: 'In' },
     { title: 'Harvest Out', icon: 'out.svg', path: '/outHarvest', section: 'Out' },
+    { title: 'Defects Handle', icon: 'defects.svg', path: '/defects', section: "None" },
   ];
 
   return (
@@ -88,13 +89,13 @@ const Sidebar = () => {
             </li>
           ))}
         </ul>
-        <ul className="pt-32 space-y-2">
+        <ul className={`${userRole === "Admin" ? "pt-8" : (section === "Out" ?"pt-44": "pt-32")} space-y-2 ml-1`}>
           <li
             className="flex gap-x-3 items-center p-2 rounded-md hover:bg-orange-100 text-sm font-medium cursor-pointer"
             onClick={handleLogout}
           >
             <span className="text-xl">
-              <img src="/assets/images/logout.svg" alt="Logout" />
+              <img src="/assets/images/logout.svg" alt="Logout" style={{marginLeft: "-2px"}}/>
             </span>
             <span className={`${!open && 'hidden'} origin-left duration-200`}>Logout</span>
           </li>
