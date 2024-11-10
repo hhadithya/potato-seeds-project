@@ -40,7 +40,7 @@ export const sendSMS = async ({ number, ID, name, weight, date, time, transactio
     }
 };
 
-export const sendRole = async ({ role }) => {
+export const sendRole = async ({ role, email }) => {
     try {
         const response = await fetch(`${backendURL}/api/send-role`, {
             method: 'POST',
@@ -48,7 +48,7 @@ export const sendRole = async ({ role }) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                role: role,
+                [email]: role,
             }),
         });
         const result = await response.json();
@@ -58,16 +58,19 @@ export const sendRole = async ({ role }) => {
     }
 };
 
-export const getRole = async () => {
+export const getRole = async ({email}) => {
     try {
         const response = await fetch(`${backendURL}/api/get-role`, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify({
+                email: email,
+            }),
         });
         const result = await response.json();
-        console.log(result);
+        // console.log(result);
         return result;
     } catch (error) {
         console.error('Error getting role: ', error);

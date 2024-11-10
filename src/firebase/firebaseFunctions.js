@@ -3,12 +3,15 @@ import { realTimeDB } from '../firebase/firebaseConfig';
 import { db } from '../firebase/firebaseConfig';
 import { collection, query, where, getDocs } from 'firebase/firestore'; 
 
+
 const thisYear = new Date().getFullYear();
 const thisMonth = new Date().getMonth() + 1;
 // const thisMonth = 1;
 
-export const getHarvestData = async () => {
-
+// Dashboard stats
+export const getHarvestData = async ({section}) => {
+  const sectionData = section || "In";
+  console.log("section:", sectionData);
   try {
     // Initialize variables
     var farmerTopYear = [];
@@ -22,7 +25,7 @@ export const getHarvestData = async () => {
     for (let month = 1; month <= 12; month++) {
         // Format month as two digits
         const formattedMonth = month < 10 ? `0${month}` : month;
-        const monthRef = ref(realTimeDB, `${thisYear}/${formattedMonth}`);
+        const monthRef = ref(realTimeDB, `${sectionData}/${thisYear}/${formattedMonth}`);
         
         // Monthly total and farmer harvest tracking
         let totalHarvest = 0;
@@ -87,10 +90,11 @@ export const getHarvestData = async () => {
 
 };
 
-export const farmerMonthlyHarvest = async ({ farmerId, year, month }) => {
+export const farmerMonthlyHarvest = async ({ farmerId, year, month, section }) => {
+  const sectionData = section || "In";
   try {
     const formattedMonth = month < 10 ? `0${month}` : month;
-    const monthRef = ref(realTimeDB, `${year}/${formattedMonth}`);
+    const monthRef = ref(realTimeDB, `${sectionData}/${year}/${formattedMonth}`);
     const snapshot = await get(monthRef);
     const data = snapshot.val();
 

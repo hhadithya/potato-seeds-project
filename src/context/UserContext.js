@@ -6,6 +6,7 @@ export const UserProvider = ({ children }) => {
   const [userRole, setUserRole] = useState(() => localStorage.getItem('userRole') || null);
   const [userName, setUserName] = useState(() => localStorage.getItem('userName') || null);
   const [section, setSection] = useState(() => localStorage.getItem('section') || null);
+  const [email, setEmailContext] = useState(() => localStorage.getItem('email') || null);
 
 //   setUserRole(getRole().role);
 
@@ -17,6 +18,14 @@ export const UserProvider = ({ children }) => {
 //       localStorage.removeItem('userRole');
 //     }
 //   }, [userRole]);
+
+  useEffect(() => {
+    if (email) {
+      localStorage.setItem('email', email);
+    } else {
+      localStorage.removeItem('email');
+    }
+  }, [email]);
 
   useEffect(() => {
     if (userName) {
@@ -35,7 +44,7 @@ export const UserProvider = ({ children }) => {
     }, [section]);
 
   return (
-    <UserContext.Provider value={{ userRole, setUserRole, userName, setUserName, section, setSection }}>
+    <UserContext.Provider value={{ userRole, setUserRole, userName, setUserName, section, setSection, email, setEmailContext }}>
       {children}
     </UserContext.Provider>
   );

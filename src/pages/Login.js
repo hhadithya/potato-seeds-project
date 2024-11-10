@@ -17,7 +17,7 @@ function Login() {
   const [roleFocused, setRoleFocused] = useState(false);
   const [operatorSection, setOperatorSection] = useState('');
   const [operatorSectionFocused, setOperatorSectionFocused] = useState(false);
-  const { setUserRole, setUserName, setSection } = useContext(UserContext);
+  const { setUserRole, setUserName, setSection, setEmailContext } = useContext(UserContext);
 
   useEffect(() => {
     document.title = 'Potato Seeds Portal Login';
@@ -43,7 +43,8 @@ function Login() {
       return;
     }
     
-    sendRole({role});
+    sendRole({role, email});
+    setEmailContext(email);
     setUserRole(role);
     setUserName(result.data);
     if (role === 'Operator') {

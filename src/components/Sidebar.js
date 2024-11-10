@@ -8,7 +8,7 @@ import { getRole } from "../BackendFunctions";
 
 const Sidebar = () => {
   // const [open, setOpen] = useState(true);
-  const { setUserRole, setUserName, setSection, section, userRole } = useContext(UserContext);
+  const { setUserRole, setUserName, setSection, section, userRole, email } = useContext(UserContext);
   const [open] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,7 +16,7 @@ const Sidebar = () => {
   useEffect(() => {
     const fetchRoleData = async () => {
         try {
-            const result = await getRole();
+            const result = await getRole({email});
             setUserRole(result.role);
         } catch (error) {
             console.error('Error fetching role: ', error);

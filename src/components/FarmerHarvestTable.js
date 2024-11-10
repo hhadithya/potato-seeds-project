@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { farmerMonthlyHarvest } from '../firebase/firebaseFunctions';
 import { useParams } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
 const FarmerHarvestTable = () => {
   const id = useParams().id;
+  const { section } = useContext(UserContext);
   const [year, setYear] = useState(2024);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [harvestData, setHarvestData] = useState([]);
@@ -12,7 +14,7 @@ const FarmerHarvestTable = () => {
     const fetchHarvestData = async () => {
       try {
         console.log(id);
-        const result = await farmerMonthlyHarvest({ farmerId: id , year, month });
+        const result = await farmerMonthlyHarvest({ farmerId: id , year, month, section });
         console.log(result);
         setHarvestData(result || []);
       } catch (error) {
@@ -21,7 +23,7 @@ const FarmerHarvestTable = () => {
     };
 
     fetchHarvestData();
-  }, [id, year, month]);
+  }, [id, year, month, section]);
 
   const handleYearChange = (e) => setYear(Number(e.target.value));
   const handleMonthChange = (e) => setMonth(Number(e.target.value));

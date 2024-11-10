@@ -11,7 +11,7 @@ import { UserContext } from '../context/UserContext';
 
 
 const Dashboard = () => {
-  const { userRole, userName } = useContext(UserContext);
+  const { userRole, userName, section } = useContext(UserContext);
   const [farmerCount, setFarmerCount] = useState(0);
   const [yearHarvest, setYearHarvest] = useState(0);
   const [monthHarvest, setMonthHarvest] = useState(0);
@@ -39,7 +39,7 @@ const Dashboard = () => {
     console.log('User Name:', userName);
     const fetchHarvestData = async () => {
       try {
-        const result = await getHarvestData();
+        const result = await getHarvestData({ section });
         // console.log(result.farmerTopYear);
         // console.log(result.topFarmerThisMonth);
         // console.log(result.maxHarvestThisMonth );
@@ -67,7 +67,7 @@ const Dashboard = () => {
     };
 
     fetchHarvestData();
-  }, [userRole, userName]);
+  }, [userRole, userName, section]);
 
   const fetchData = async (id, title) => { 
     try {
@@ -128,7 +128,8 @@ const Dashboard = () => {
           </div>
         ) : (
           <>
-            <div className='flex justify-center gap-12 mt-10 mb-5'>
+          {(section === 'In' || userRole === 'Admin') && (
+              <div className='flex justify-center gap-12 mt-10 mb-5'>
               <Card
                 id={topYearId}
                 name={topYearProfile.fullName}
@@ -146,7 +147,8 @@ const Dashboard = () => {
                 subtitle={'Month'}
               />
             </div>
-            <div className='p-7 font-semibold flex-1 mb-8'>
+            )}
+            <div className={`p-7 font-semibold flex-1 mb-8 ${section === "Out" && ("mt-10")}`}>
               <div className="flex justify-center gap-24 mt-2">
                 {stats.map((stat, index) => (
                   <div key={index} className="text-center">
