@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
 import { operatorCheck } from '../firebase/firebaseFunctions';
+import { UserContext } from '../context/UserContext';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -15,6 +16,7 @@ function Login() {
   const [roleFocused, setRoleFocused] = useState(false);
   const [operatorSection, setOperatorSection] = useState('');
   const [operatorSectionFocused, setOperatorSectionFocused] = useState(false);
+  const { setUserRole } = useContext(UserContext);
 
   useEffect(() => {
     document.title = 'Potato Seeds Portal Login';
@@ -42,6 +44,7 @@ function Login() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      setUserRole(role);
       navigate('/dashboard');
     } catch (error) {
       setError('Invalid email or password. Please try again.');

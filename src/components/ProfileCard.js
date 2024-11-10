@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { db, storage } from '../firebase/firebaseConfig';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { UserContext } from '../context/UserContext';
 
 const ProfileCard = () => {
+    const { userRole } = useContext(UserContext);
     const id = useParams().id;
     const [isEditing, setIsEditing] = useState(false);
     const [image, setImage] = useState(null);
@@ -27,6 +29,7 @@ const ProfileCard = () => {
     const [isHovered, setIsHovered] = useState(false);
 
     useEffect(() => {
+        console.log(userRole);
         setLoading(true);
 
         const fetchFarmerData = async () => {
@@ -46,7 +49,7 @@ const ProfileCard = () => {
         };
 
         fetchFarmerData();
-    }, [id]);
+    }, [id, userRole]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -129,7 +132,7 @@ const ProfileCard = () => {
             <div className="flex justify-center gap-10 mt-8">
                 <div
                     className="relative w-32 h-32 rounded-lg overflow-hidden"
-                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseEnter={() => {userRole === "Admin" ? setIsHovered(true) : setIsHovered(false)}}
                     onMouseLeave={() => setIsHovered(false)}
                 >
                     <img src={profileData.imageUrl} alt="farmer" className="w-full h-full object-cover border rounded-lg" />
@@ -243,12 +246,14 @@ const ProfileCard = () => {
                     </div>
                 </div>
             </div>
-            <button
-                className="ml-16 px-6 py-1 rounded-full text-sm font-medium bg-orange-100 w-20 h-10 mb-2 hover:bg-orange-200 duration-200"
-                onClick={toggleEdit}
-            >
-                {isEditing ? 'Save' : 'Edit'}
-            </button>
+            {userRole === 'Admin' && (
+                <button
+                    className="ml-16 px-6 py-1 rounded-full text-sm font-medium bg-orange-100 w-20 h-10 mb-2 hover:bg-orange-200 duration-200"
+                    onClick={toggleEdit}
+                >
+                    {isEditing ? 'Save' : 'Edit'}
+                </button>
+            )}
         </>
     );
 };

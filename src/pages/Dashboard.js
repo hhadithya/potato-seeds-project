@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import BarChart from '../components/BarChart';
 import Sidebar from '../components/Sidebar';
 import Card from '../components/Card';
@@ -7,9 +7,11 @@ import { db } from '../firebase/firebaseConfig';
 import { collection, onSnapshot, getDoc, doc } from 'firebase/firestore';
 import { getHarvestData } from '../firebase/firebaseFunctions';
 import NavBar from '../components/NavBar';
+import { UserContext } from '../context/UserContext';
 
 
 const Dashboard = () => {
+  const { userRole } = useContext(UserContext);
   const [farmerCount, setFarmerCount] = useState(0);
   const [yearHarvest, setYearHarvest] = useState(0);
   const [monthHarvest, setMonthHarvest] = useState(0);
@@ -33,6 +35,7 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
+    console.log('User role:', userRole);
     const fetchHarvestData = async () => {
       try {
         const result = await getHarvestData();
@@ -63,7 +66,7 @@ const Dashboard = () => {
     };
 
     fetchHarvestData();
-  }, []);
+  }, [userRole]);
 
   const fetchData = async (id, title) => { 
     try {
