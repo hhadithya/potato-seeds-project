@@ -55,22 +55,14 @@ const RegisterForm = () => {
     e.preventDefault();
 
     if (!formData.fullName || !formData.nicNumber || !formData.mobileNumber || !formData.GND || !formData.DS || !formData.gender || !formData.farmerId) {
+      setError('Please fill all the required entries.');
+      setMessage('');
       return;
     }
-
-    // // Validate form fields
-    // if (!formData.fullName || !formData.nicNumber || !formData.mobileNumber || !formData.address || !formData.gender || !formData.farmerId || !image) {
-    //   setError('Please fill all the entries.');
-    //   setMessage('');
-    //   return;
-    // }
-
-    // setEnableButton(true);
 
     setLoading(true); // Show loading screen
 
     try {
-      // Upload image to Firebase Storage
       if (image){
         const imageRef = ref(storage, `images/${formData.farmerId}`);
         await uploadBytes(imageRef, image);
