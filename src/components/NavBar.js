@@ -1,8 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { UserContext } from '../context/UserContext';
+import { getRole } from '../BackendFunctions';
 
 const Navbar = ({title}) => {
-  const { userRole, userName } = useContext(UserContext);
+  const { userRole, userName, setUserRole } = useContext(UserContext);
+
+  useEffect(() => {
+    const fetchRoleData = async () => {
+        try {
+            const result = await getRole();
+            setUserRole(result.role);
+        } catch (error) {
+            console.error('Error fetching role: ', error);
+        }
+    };
+
+    fetchRoleData();
+
+  }, [setUserRole]);
 
   return (
     <div className="fixed top-0 left-72 w-10/12 bg-white p-4 z-50 shadow-sm">

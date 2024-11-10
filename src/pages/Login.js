@@ -19,8 +19,6 @@ function Login() {
   const [operatorSectionFocused, setOperatorSectionFocused] = useState(false);
   const { setUserRole, setUserName, setSection } = useContext(UserContext);
 
-  
-
   useEffect(() => {
     document.title = 'Potato Seeds Portal Login';
 
@@ -44,8 +42,7 @@ function Login() {
       }, 5000);
       return;
     }
-
-    console.log(role);
+    
     sendRole({role});
     setUserRole(role);
     setUserName(result.data);

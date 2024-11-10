@@ -1,9 +1,10 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 // import { IoIosArrowBack } from "react-icons/io";
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
 import { UserContext } from '../context/UserContext';
+import { getRole } from "../BackendFunctions";
 
 const Sidebar = () => {
   // const [open, setOpen] = useState(true);
@@ -11,6 +12,20 @@ const Sidebar = () => {
   const [open] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const fetchRoleData = async () => {
+        try {
+            const result = await getRole();
+            setUserRole(result.role);
+        } catch (error) {
+            console.error('Error fetching role: ', error);
+        }
+    };
+
+    fetchRoleData();
+
+  }, [setUserRole]);
 
   const handleLogout = async () => {
     try {

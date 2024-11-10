@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from 'react';
-// import { getRole } from '../BackendFunctions';
 
 export const UserContext = createContext();
 
@@ -11,13 +10,13 @@ export const UserProvider = ({ children }) => {
 //   setUserRole(getRole().role);
 
   // Save to localStorage whenever userRole or userName changes
-  useEffect(() => {
-    if (userRole) {
-      localStorage.setItem('userRole', userRole);
-    } else {
-      localStorage.removeItem('userRole');
-    }
-  }, [userRole]);
+//   useEffect(() => {
+//     if (userRole) {
+//       localStorage.setItem('userRole', userRole);
+//     } else {
+//       localStorage.removeItem('userRole');
+//     }
+//   }, [userRole]);
 
   useEffect(() => {
     if (userName) {
