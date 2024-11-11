@@ -1,5 +1,5 @@
-// const backendURL = 'https://soursop-backend.vercel.app';
-const backendURL = 'http://192.168.1.76:5000';
+const backendURL = 'https://soursop-backend.vercel.app';
+// const backendURL = 'http://192.168.1.76:5000';
 
 export const tokenGen = async () => {
     try {
