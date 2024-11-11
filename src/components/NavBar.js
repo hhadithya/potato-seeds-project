@@ -1,24 +1,14 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../context/UserContext';
-import { getRole } from '../BackendFunctions';
+import { getDecryptedUserRole } from '../Encrypt';
 
 const Navbar = ({title}) => {
-  const { userRole, userName, setUserRole, email } = useContext(UserContext);
+  const { userRole, userName, section } = useContext(UserContext);
+  const [role, setRole] = useState('');
 
   useEffect(() => {
-    const fetchRoleData = async () => {
-        try {
-          // console.log('Email:', email);
-            const result = await getRole({email});
-            setUserRole(result.role);
-        } catch (error) {
-            console.error('Error fetching role: ', error);
-        }
-    };
-
-    fetchRoleData();
-
-  }, [setUserRole, email]);
+    setRole(getDecryptedUserRole(userRole));
+  }, [userRole]); 
 
   return (
     <div className="fixed top-0 left-72 w-10/12 bg-white p-4 z-50 shadow-sm">
@@ -38,7 +28,7 @@ const Navbar = ({title}) => {
       }
         <div className="flex flex-col mr-24">
           <p className="text-gray-900 font-medium" style={{marginBottom: "-4px"}}>{userName}</p>
-          <p className="text-gray-700 text-sm">{userRole}</p>
+          <p className="text-gray-700 text-sm">{role}{role === "Operator" && " | "  + section}</p>
         </div>
       </div>
     </div>

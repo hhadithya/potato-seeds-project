@@ -40,57 +40,57 @@ export const sendSMS = async ({ number, ID, name, weight, date, time, transactio
     }
 };
 
-export const sendRole = async ({ role, email }) => {
-    try {
-        const response = await fetch(`${backendURL}/api/send-role`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                [email]: role,
-            }),
-        });
-        const result = await response.json();
-        console.log(result);
-    } catch (error) {
-        console.error('Error sending role: ', error);
-    }
-};
+// export const sendRole = async ({ role, email }) => {
+//     try {
+//         const response = await fetch(`${backendURL}/api/send-role`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({
+//                 [email]: role,
+//             }),
+//         });
+//         const result = await response.json();
+//         console.log(result);
+//     } catch (error) {
+//         console.error('Error sending role: ', error);
+//     }
+// };
 
-export const getRole = async ({email}) => {
-    try {
-        const response = await fetch(`${backendURL}/api/get-role`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-            }),
-        });
-        const result = await response.json();
-        // console.log(result);
-        return result;
-    } catch (error) {
-        console.error('Error getting role: ', error);
-    }
-};
+// export const getRole = async ({email}) => {
+//     try {
+//         const response = await fetch(`${backendURL}/api/get-role`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({
+//                 email: email,
+//             }),
+//         });
+//         const result = await response.json();
+//         // console.log(result);
+//         return result;
+//     } catch (error) {
+//         console.error('Error getting role: ', error);
+//     }
+// };
 
-export const deleteRole = async ({email}) => {
-    try {
-        const response = await fetch(`${backendURL}/api/delete-role`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-            }),
-        });
-        const result = await response.json();
-        console.log(result);
-    } catch (error) {
-        console.error('Error deleting role: ', error);
-    }
-}
+// export const deleteRole = async ({email}) => {
+//     try {
+//         const response = await fetch(`${backendURL}/api/delete-role`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({
+//                 email: email,
+//             }),
+//         });
+//         const result = await response.json();
+//         console.log(result);
+//     } catch (error) {
+//         console.error('Error deleting role: ', error);
+//     }
+// }

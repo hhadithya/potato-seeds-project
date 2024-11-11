@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
 import { operatorCheck } from '../firebase/firebaseFunctions';
 import { UserContext } from '../context/UserContext';
-import { sendRole } from '../BackendFunctions';
+import { setEncryptedUserRole } from '../Encrypt';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ function Login() {
   const [roleFocused, setRoleFocused] = useState(false);
   const [operatorSection, setOperatorSection] = useState('');
   const [operatorSectionFocused, setOperatorSectionFocused] = useState(false);
-  const { setUserRole, setUserName, setSection, setEmailContext } = useContext(UserContext);
+  const { setUserName, setSection } = useContext(UserContext);
 
   useEffect(() => {
     document.title = 'Potato Seeds Portal Login';
@@ -43,9 +43,8 @@ function Login() {
       return;
     }
     
-    sendRole({role, email});
-    setEmailContext(email);
-    setUserRole(role);
+    // sendRole({role, email});
+    // setUserRole(role);
     setUserName(result.data);
     if (role === 'Operator') {
       setSection(operatorSection);
@@ -53,6 +52,7 @@ function Login() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      setEncryptedUserRole(role);
       navigate('/dashboard');
     } catch (error) {
       setError('Invalid email or password. Please try again.');

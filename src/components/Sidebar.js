@@ -4,37 +4,28 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
 import { UserContext } from '../context/UserContext';
-import { getRole } from "../BackendFunctions";
-import { deleteRole } from "../BackendFunctions";
+import { getDecryptedUserRole } from '../Encrypt';
+
 
 const Sidebar = () => {
-  // const [open, setOpen] = useState(true);
-  const { setUserRole, setUserName, setSection, section, userRole, email } = useContext(UserContext);
+  const [ role, setRole ] = useState('');
+  const { section, userRole } = useContext(UserContext);
   const [open] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    const fetchRoleData = async () => {
-        try {
-            const result = await getRole({email});
-            setUserRole(result.role);
-        } catch (error) {
-            console.error('Error fetching role: ', error);
-        }
-    };
-
-    fetchRoleData();
-
-  });
+    setRole(getDecryptedUserRole(userRole));
+  }, [userRole]);
 
   const handleLogout = async () => {
     try {
-      await deleteRole({ email });
+      // await deleteRole({ email });
       await signOut(auth);
-      setUserRole(null);
-      setUserName(null);
-      setSection(null);
+      localStorage.clear();
+      // setUserRole(null);
+      // setUserName(null);
+      // setSection(null);
 
       navigate('/login');
     } catch (error) {
@@ -75,7 +66,7 @@ const Sidebar = () => {
           </h1>
         </div>
         <ul className="pt-6 space-y-2">
-        {Menus.filter(menu => userRole === 'Admin' || !menu.section || menu.section === section).map((Menu, index) => (
+        {Menus.filter(menu => role === 'Admin' || !menu.section || menu.section === section).map((Menu, index) => (
             <li
               key={index}
               className={`flex  rounded-md p-2 cursor-pointer hover:bg-orange-100 text-sm font-medium items-center gap-x-4  
@@ -91,7 +82,7 @@ const Sidebar = () => {
             </li>
           ))}
         </ul>
-        <ul className={`${userRole === "Admin" ? "pt-8" : (section === "Out" ?"pt-44": "pt-32")} space-y-2 ml-1`}>
+        <ul className={`${role === "Admin" ? "pt-8" : (section === "Out" ?"pt-44": "pt-32")} space-y-2 ml-1`}>
           <li
             className="flex gap-x-3 items-center p-2 rounded-md hover:bg-orange-100 text-sm font-medium cursor-pointer"
             onClick={handleLogout}
