@@ -9,6 +9,7 @@ import { getDecryptedUserRole } from '../Encrypt';
 
 const Sidebar = () => {
   const [ role, setRole ] = useState('');
+  const { setUserRole, setUserName, setSection } = useContext(UserContext);
   const { section, userRole } = useContext(UserContext);
   const [open] = useState(true);
   const navigate = useNavigate();
@@ -23,9 +24,9 @@ const Sidebar = () => {
       // await deleteRole({ email });
       await signOut(auth);
       localStorage.clear();
-      // setUserRole(null);
-      // setUserName(null);
-      // setSection(null);
+      setUserRole(null);
+      setUserName(null);
+      setSection(null);
 
       navigate('/login');
     } catch (error) {

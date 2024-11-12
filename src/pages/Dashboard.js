@@ -8,6 +8,7 @@ import { collection, onSnapshot, getDoc, doc } from 'firebase/firestore';
 import { getHarvestData } from '../firebase/firebaseFunctions';
 import NavBar from '../components/NavBar';
 import { UserContext } from '../context/UserContext';
+import { getDecryptedUserRole } from '../Encrypt';
 
 
 const Dashboard = () => {
@@ -21,6 +22,7 @@ const Dashboard = () => {
   const [topYearId, setTopYearId] = useState('');
   const [topYearHarvest, setTopYearHarvest] = useState(0);
   const [topMonthHarvest, setTopMonthHarvest] = useState(0);
+  const [role, setRole] = useState('');
 
   const [topMonthProfile, settopMonthProfile] = useState({
     farmerId: '',
@@ -35,6 +37,7 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
+    setRole(getDecryptedUserRole(userRole));
     console.log('User role:', userRole);
     console.log('User Name:', userName);
     const fetchHarvestData = async () => {
@@ -128,7 +131,7 @@ const Dashboard = () => {
           </div>
         ) : (
           <>
-          {(section === 'In' || userRole === 'Admin') && (
+          {(section === 'In' || role === 'Admin') && (
               <div className='flex justify-center gap-12 mt-10 mb-5'>
               <Card
                 id={topYearId}
