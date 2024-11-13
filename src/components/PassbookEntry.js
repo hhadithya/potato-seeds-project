@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../stylesheets/print.css";
-import { ref, set } from 'firebase/database';
+import { ref, update, set, get } from 'firebase/database';
 import { realTimeDB, db } from '../firebase/firebaseConfig'; 
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { tokenGen, sendSMS } from '../BackendFunctions';
@@ -122,13 +122,33 @@ const PassbookEntry = () => {
 
     const farmerRef = ref(realTimeDB, `In/${year}/${month}/${day}/${farmerId}`);
 
+    const inDatesRef = ref(realTimeDB, "In/In-dates");
+
     const docRef = doc(db, 'farmers', farmerId);
     setLoading(true);
     
       try {
-        await set(farmerRef, {
-          time: `${time}`,
-          value: parseFloat(parseFloat(accumualateWeight).toFixed(2)),
+        const newDate = `${year}/${month}/${day}`;
+        const snapshot = await get(inDatesRef);
+        let newInDates = {};
+        if (snapshot.exists()) {
+          newInDates = snapshot.val();
+        }
+  
+        // Check if the date already exists
+        if (Object.values(newInDates).includes(newDate)) {
+          console.log('Date already exists in the list.');
+        } else{
+          let newKey = 0;
+          while (newInDates.hasOwnProperty(newKey)) {
+            newKey++;
+          }
+          newInDates[newKey] = newDate;
+          await set(inDatesRef, newInDates);
+        }
+
+        await update(farmerRef, {
+          [time]: parseFloat(parseFloat(accumualateWeight).toFixed(2)),
         });
         
         await updateDoc(docRef, {
@@ -139,8 +159,8 @@ const PassbookEntry = () => {
       });
 
       // console.log('Data successfully added!');
-      tokenGen();
-      sendSMS({
+      await tokenGen();
+      const smsStatus = await sendSMS({
         number: number.slice(4),
         ID: farmerId,
         name: farmerName,
@@ -148,7 +168,10 @@ const PassbookEntry = () => {
         date: date,
         time: time,
         transaction_id: transactionID
-      });
+      })
+      while(!smsStatus){
+        console.log('SMS failed to send');
+      };
       handlePrint(); // Call print function
       
 

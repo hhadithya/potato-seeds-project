@@ -35,8 +35,10 @@ export const sendSMS = async ({ number, ID, name, weight, date, time, transactio
         });
         const result = await responce.json();
         console.log(result);
+        return 1;
     } catch (error) {
         console.error('Error sending mail: ', error);
+        return 0;
     }
 };
 

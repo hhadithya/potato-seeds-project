@@ -4,8 +4,10 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { UserContext } from '../context/UserContext';
+import { getDecryptedUserRole } from '../Encrypt';
 
 const ProfileCard = () => {
+    const [role, setRole] = useState('');
     const { userRole } = useContext(UserContext);
     const id = useParams().id;
     const [isEditing, setIsEditing] = useState(false);
@@ -29,6 +31,7 @@ const ProfileCard = () => {
     const [isHovered, setIsHovered] = useState(false);
 
     useEffect(() => {
+        setRole(getDecryptedUserRole(userRole));
         console.log(userRole);
         setLoading(true);
 
@@ -132,7 +135,7 @@ const ProfileCard = () => {
             <div className="flex justify-center gap-10 mt-8">
                 <div
                     className="relative w-32 h-32 rounded-lg overflow-hidden"
-                    onMouseEnter={() => {userRole === "Admin" ? setIsHovered(true) : setIsHovered(false)}}
+                    onMouseEnter={() => {role === "Admin" ? setIsHovered(true) : setIsHovered(false)}}
                     onMouseLeave={() => setIsHovered(false)}
                 >
                     <img src={profileData.imageUrl} alt="farmer" className="w-full h-full object-cover border rounded-lg" />
@@ -246,7 +249,7 @@ const ProfileCard = () => {
                     </div>
                 </div>
             </div>
-            {userRole === 'Admin' && (
+            {role === 'Admin' && (
                 <button
                     className="ml-16 px-6 py-1 rounded-full text-sm font-medium bg-orange-100 w-20 h-10 mb-2 hover:bg-orange-200 duration-200"
                     onClick={toggleEdit}

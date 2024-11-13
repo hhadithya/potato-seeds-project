@@ -1,59 +1,83 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import FarmerTable from '../components/FarmerTable';
 import { realTimeDB } from '../firebase/firebaseConfig';
 import { ref, onValue } from 'firebase/database';
 import Spinner from '../components/Spinner';
 import { UserContext } from '../context/UserContext';
+import { getDecryptedUserRole } from '../Encrypt';
 
 const HarvestView = () => {
+  const [role, setRole] = useState('');
   const { userRole, section } = useContext(UserContext);
-  const [date, setDate] = useState('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false); // Loading state
   const [operatorSection, setOperatorSection] = useState('');
 
   const handleDateChange = (e) => {
-    setDate(e.target.value);
-  };
-
-  const handleFilterSubmit = (e) => {
-    e.preventDefault();
-
-    if (date) {
-      setLoading(true); // Show spinner when filter button is clicked
-      console.log(operatorSection);
-      const dbRef = ref(realTimeDB, `${operatorSection || section}/` + date.replace(/-/g, '/'));
-
-      onValue(
-        dbRef,
-        (snapshot) => {
-          const data = snapshot.val();
-          console.log(data);
-          if (data) {
-            const dataArray = Object.keys(data).map((key) => ({
-              ...data[key],
-              id: key,
-            }));
-            setData(dataArray);
-          } else {
-            setData([]);
-            console.log('No data available');
-          }
-          setLoading(false); // Hide spinner after data is loaded
-        },
-        (errorObject) => {
-          console.error('The read failed: ' + errorObject.message);
-          setLoading(false); // Hide spinner if there's an error
-        }
-      );
+    if (e.target.id === 'dateFrom') {
+      setDateFrom(e.target.value);
+    }
+    if (e.target.id === 'dateTo') {
+      setDateTo(e.target.value);
     }
   };
+
+  useEffect(() => {
+    setRole(getDecryptedUserRole(userRole));
+  }, [userRole]);
+
+  const handleFilterSubmit = async (e) => {
+    e.preventDefault();
+  
+    if (dateFrom && dateTo) {
+      setLoading(true); // Show spinner when filter button is clicked
+      console.log(operatorSection);
+
+      const sectioFilter = operatorSection || section;
+
+      const dateRef = ref (realTimeDB, `In/In-dates`);
+      onValue(dateRef, (snapshot) => {
+        const dates = snapshot.val();
+        console.log(dates);
+        
+        let filteredDates = dates.filter((date) => {
+          date = new Date(date).toISOString().split('T')[0];
+          return date >= dateFrom && date <= dateTo;
+        });
+
+        filteredDates = filteredDates.sort();
+        const result = [];
+        filteredDates.forEach((date) => {
+          const docRef = ref(realTimeDB, `${sectioFilter}/${date}`);
+          onValue(docRef, (snapshot) => {
+            const data = snapshot.val();
+            // console.log(data);
+            for (const id in data) {
+              for (const time in data[id]) {
+                result.push({
+                    id: id,
+                    date: date,
+                    time: time,
+                    weight: data[id][time]
+                });
+              }
+            }
+            setData(result);
+            console.log(result);
+          });
+        });
+        setLoading(false);
+      });
+    }
+  }
 
   return (
     <div className="container mx-auto p-4">
       {/* Date Filters */}
       <div className="flex justify-center gap-8 mb-6 items-center mb-10">
-      {userRole === 'Admin'  && (
+      {role === 'Admin'  && (
             <div className="flex flex-col w-36">
               <label className="text-gray-600 text-sm font-medium">Section</label>
                 <select
@@ -75,8 +99,9 @@ const HarvestView = () => {
           <input
             type="date"
             className="border rounded p-2 text-gray-600 text-sm font-medium focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-            value={date}
+            value={dateFrom}
             onChange={handleDateChange}
+            id='dateFrom'
           />
         </div>
         <div className="flex flex-col w-40">
@@ -84,8 +109,9 @@ const HarvestView = () => {
           <input
             type="date"
             className="border rounded p-2 text-gray-600 text-sm font-medium focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-            value={date}
+            value={dateTo}
             onChange={handleDateChange}
+            id='dateTo'
           />
         </div>
         <button
