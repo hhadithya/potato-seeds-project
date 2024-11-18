@@ -1,7 +1,7 @@
 import { ref, get } from 'firebase/database';
 import { realTimeDB } from '../firebase/firebaseConfig';
 import { db } from '../firebase/firebaseConfig';
-import { collection, query, where, getDocs } from 'firebase/firestore'; 
+import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore'; 
 
 
 const thisYear = new Date().getFullYear();
@@ -83,46 +83,27 @@ export const getHarvestData = async ({section}) => {
         topFarmerThisMonth,         // Key of the farmer with the max harvest this month
         maxHarvestThisMonth         // Maximum harvest value for the current month
     };
-} catch (error) {
-    console.error("Error fetching harvest data:", error);
-    throw error;
-}
-
-};
-
-export const farmerMonthlyHarvest = async ({ farmerId, year, month, section }) => {
-  const sectionData = section || "In";
-  try {
-    const formattedMonth = month < 10 ? `0${month}` : month;
-    const monthRef = ref(realTimeDB, `${sectionData}/${year}/${formattedMonth}`);
-    const snapshot = await get(monthRef);
-    const data = snapshot.val();
-
-    if (!data) return null;
-
-
-    const harvestData = [];
-    Object.keys(data).forEach((date) => {
-      // console.log(date);
-      if (data[date][farmerId]) {
-        // console.log(data[date][farmerId]);
-        harvestData.push(
-          {
-            date: year + "/" + formattedMonth + "/" + date,
-            time: data[date][farmerId].time,
-            value: data[date][farmerId].value
-          }
-        );
-
-      }
-    });
-
-    return harvestData;
   } catch (error) {
-    console.error("Error fetching harvest data:", error);
-    throw error;
+      console.error("Error fetching harvest data:", error);
+      throw error;
   }
+
 };
+
+export const farmerHarvestDetails = async ({id, dateFrom, dateTo, section}) => {
+  const farmerDocRef = doc(db, "farmers", id);
+  const farmerDoc = await getDoc(farmerDocRef);
+  const inDates = farmerDoc.data()["in-dates"];
+  console.log("inDates:", inDates);
+
+  const filteredDates = inDates.filter((date) => {
+    date = new Date(date).toISOString().split('T')[0];
+    console.log("date:", date);
+    return date >= dateFrom && date <= dateTo;
+  }
+  );
+  console.log("filteredDates:", filteredDates);
+}
 
 export const operatorCheck = async (role, email) => {
   try{
@@ -143,3 +124,4 @@ export const operatorCheck = async (role, email) => {
     throw error;
   }
 }
+

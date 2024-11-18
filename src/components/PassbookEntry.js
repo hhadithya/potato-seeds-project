@@ -26,12 +26,13 @@ const PassbookEntry = () => {
   const [checkWeight, setCheckWeight] = useState(true);
   const [number, setNumber] = useState('');
   const [transactionID, setTransactionID] = useState('');
+  const [inDates, setInDates] = useState([]);
 
   // Function to fetch farmer's name from Firestore using farmerId
   const fetchFarmerName = async (id) => {
     if (id) {
       try {
-        console.log(id);
+        // console.log(id);
         const docRef = doc(db, 'farmers', id); // Firestore collection 'farmers' with farmerId as document id
         const docSnap = await getDoc(docRef);
 
@@ -43,15 +44,18 @@ const PassbookEntry = () => {
           }
           setError('');
           setMessage("Farmer found!");
-          console.log('Farmer data:', docSnap.data());
+          // console.log('Farmer data:', docSnap.data());
           setFarmerName(docSnap.data().fullName);
           setLineNumberChange(docSnap.data()["line-num"]);
           setLineNumber(docSnap.data()["line-num"]);
           setCWeight(docSnap.data()["c-weight"]);
           setPrintLine(docSnap.data()["print-line"]);
+          setInDates(docSnap.data()["in-dates"]);
+          // console.log(docSnap.data()["in-dates"]);
           setNumber(docSnap.data().mobileNumber);
           setTransactionID(docSnap.data().transactionID);
         } else {
+          setMessage('');
           setIsButtonDisabled(true);
           setEnableWeight(true); 
           setError('Farmer not found.');
@@ -150,11 +154,16 @@ const PassbookEntry = () => {
         await update(farmerRef, {
           [time]: parseFloat(parseFloat(accumualateWeight).toFixed(2)),
         });
-        
+        // console.log(inDates);
+        if (inDates.includes(newDate) === false) {
+          inDates.push(newDate);
+        }
+
         await updateDoc(docRef, {
           "line-num": lineNumberChange + 1,
           "c-weight": parseFloat(parseFloat(cWeightChange).toFixed(2)),
           "print-line": printLine + 1,
+          "in-dates": inDates,
           transactionID: transactionID + 1
       });
 

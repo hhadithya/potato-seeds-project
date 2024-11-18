@@ -88,6 +88,7 @@ const RegisterForm = () => {
         "GND": formData.GND.charAt(0).toUpperCase() + formData.GND.slice(1),
         "DS": formData.DS.charAt(0).toUpperCase() + formData.DS.slice(1),
         "transactionID": parseInt(formData.farmerId)*10000,
+        "in-dates": [],
       });
 
       setMessage('Registration successful!');

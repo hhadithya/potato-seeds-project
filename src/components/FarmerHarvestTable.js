@@ -1,65 +1,86 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { farmerMonthlyHarvest } from '../firebase/firebaseFunctions';
+import { farmerHarvestDetails } from '../firebase/firebaseFunctions'; 
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
+import { getDecryptedUserRole } from '../Encrypt';
 
 const FarmerHarvestTable = () => {
   const id = useParams().id;
-  const { section } = useContext(UserContext);
-  const [year, setYear] = useState(2024);
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const { section, userRole } = useContext(UserContext);
   const [harvestData, setHarvestData] = useState([]);
+  const [ role, setRole ] = useState('');
+  const [operatorSection, setOperatorSection] = useState('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
 
   useEffect(() => {
-    const fetchHarvestData = async () => {
-      try {
-        console.log(id);
-        const result = await farmerMonthlyHarvest({ farmerId: id , year, month, section });
-        console.log(result);
-        setHarvestData(result || []);
-      } catch (error) {
-        console.error('Error fetching harvest data:', error);
-      }
-    };
+    setOperatorSection(section || operatorSection);
+    setRole(getDecryptedUserRole(userRole));
+  }, [userRole, section, operatorSection]);
 
-    fetchHarvestData();
-  }, [id, year, month, section]);
+  const handleDateChange = (e) => {
+    if (e.target.id === 'dateFrom') {
+      setDateFrom(e.target.value);
+    }
+    if (e.target.id === 'dateTo') {
+      setDateTo(e.target.value);
+    }
+  };
 
-  const handleYearChange = (e) => setYear(Number(e.target.value));
-  const handleMonthChange = (e) => setMonth(Number(e.target.value));
+  const handleFilterSubmit = async () => {
+    if (dateFrom && dateTo) {
+      console.log(id);
+      farmerHarvestDetails({id, dateFrom, dateTo, operatorSection});
+    }
+  }
+
 
   return (
     <>
-      <div className="flex ml-20 mt-5 mb-5">
-        <div className="w-32">
-          <select
-            value={year}
-            onChange={handleYearChange}
-            className="font-medium text-sm rounded-lg focus:outline-none focus:ring-amber-500 focus:border-amber-500 mt-2 mb-1"
-          >
-            <option value="2024">2024</option>
-          </select>
+      <div className="flex justify-center gap-8 mb-6 items-center mt-10">
+      {role === 'Admin'  && (
+            <div className="flex flex-col w-36">
+              <label className="text-gray-600 text-sm font-medium">Section</label>
+                <select
+                  id="operatorSection"
+                  name="operatorSection"
+                  value={operatorSection}
+                  onChange={(e) => setOperatorSection(e.target.value)}
+                  required
+                  className="border rounded p-2 text-gray-600 text-sm font-medium focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                >
+                  <option value="" disabled hidden>Select Section</option>
+                  <option value="In">Harvest In</option>
+                  <option value="Out">Harvest Out</option>
+                </select>
+              </div>
+          )}
+        <div className="flex flex-col w-40">
+          <label className="text-gray-600 text-sm font-medium">Date From</label>
+          <input
+            type="date"
+            className="border rounded p-2 text-gray-600 text-sm font-medium focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+            value={dateFrom}
+            onChange={handleDateChange}
+            id='dateFrom'
+          />
         </div>
-        <div className="w-32" style={{ marginLeft: '-1rem' }}>
-          <select
-            value={month}
-            onChange={handleMonthChange}
-            className="font-medium text-sm rounded-lg focus:outline-none focus:ring-amber-500 focus:border-amber-500 mt-2 mb-1"
-          >
-            <option value="1">January</option>
-            <option value="2">February</option>
-            <option value="3">March</option>
-            <option value="4">April</option>
-            <option value="5">May</option>
-            <option value="6">June</option>
-            <option value="7">July</option>
-            <option value="8">August</option>
-            <option value="9">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
-          </select>
+        <div className="flex flex-col w-40">
+          <label className="text-gray-600 text-sm font-medium">Date To</label>
+          <input
+            type="date"
+            className="border rounded p-2 text-gray-600 text-sm font-medium focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+            value={dateTo}
+            onChange={handleDateChange}
+            id='dateTo'
+          />
         </div>
+        <button
+          className="px-6 py-1 rounded-full text-sm font-medium bg-orange-100 w-24 h-10 mt-5 hover:bg-orange-200 duration-200"
+          onClick={handleFilterSubmit}
+        >
+          Filter
+        </button>
       </div>
       <div className="overflow-x-auto flex flex-col justify-center items-center mt-5">
         <table className="table-auto border-collapse border border-gray-300 w-4/5 text-left">
@@ -74,7 +95,7 @@ const FarmerHarvestTable = () => {
             <tr>
               <td className="border border-gray-300 p-2 font-medium" colSpan="2">Total Harvest</td>
               <td className="border border-gray-300 p-2 font-medium">
-                {(harvestData.reduce((total, item) => total + item.value, 0).toFixed(2))} kg
+                {/* {(harvestData.reduce((total, item) => total + item.value, 0).toFixed(2))} kg */}
               </td>
             </tr>
             {harvestData.length > 0 ? (

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import BarChart from '../components/BarChart';
 import Sidebar from '../components/Sidebar';
 import Card from '../components/Card';
-import Spinner from '../components/Spinner';  // Import the spinner component
+import Spinner from '../components/Spinner';
 import { db } from '../firebase/firebaseConfig';
 import { collection, onSnapshot, getDoc, doc } from 'firebase/firestore';
 import { getHarvestData } from '../firebase/firebaseFunctions';
