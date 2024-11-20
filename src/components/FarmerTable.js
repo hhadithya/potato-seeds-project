@@ -63,11 +63,11 @@ const FarmerTable = ({ data }) => {
         </table>
 
         {/* Pagination Controls */}
-        <div className="flex items-center mt-5 w-72 gap-4">
+        <div className="flex items-center mt-5 w-72 gap-4 mb-10">
           <button 
             onClick={handlePrevPage} 
             disabled={currentPage === 1} 
-            className={`text-xs font-medium px-3 py-2 bg-orange-100 rounded-full ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`text-xs font-medium px-3 py-2 bg-orange-100 rounded-full hover:bg-orange-200 active:shadow ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             Previous
           </button>
@@ -77,7 +77,7 @@ const FarmerTable = ({ data }) => {
           <button 
             onClick={handleNextPage} 
             disabled={currentPage === totalPages} 
-            className={`text-xs font-medium px-3 py-2 bg-orange-100 rounded-full ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`text-xs font-medium px-3 py-2 bg-orange-100 rounded-full hover:bg-orange-200 active:shadow ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             Next
           </button>

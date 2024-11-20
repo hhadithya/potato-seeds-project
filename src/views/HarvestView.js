@@ -12,7 +12,7 @@ const HarvestView = () => {
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
   const [operatorSection, setOperatorSection] = useState('');
 
   const handleDateChange = (e) => {
@@ -32,13 +32,13 @@ const HarvestView = () => {
     e.preventDefault();
   
     if (dateFrom && dateTo) {
-      setLoading(true); // Show spinner when filter button is clicked
+      setLoading(true);
       console.log(operatorSection);
 
       const sectioFilter = operatorSection || section;
 
-      const dateRef = ref (realTimeDB, `In/In-dates`);
-      onValue(dateRef, (snapshot) => {
+      const dateRef = ref (realTimeDB, `${sectioFilter}/${sectioFilter}-dates`);
+      onValue(dateRef, async (snapshot) => {
         const dates = snapshot.val();
         console.log(dates);
         
@@ -47,25 +47,36 @@ const HarvestView = () => {
           return date >= dateFrom && date <= dateTo;
         });
         console.log(filteredDates);
-        // filteredDates = filteredDates.sort();
-        const result = [];
-        filteredDates.forEach(async (date) => {
-          const docRef = ref(realTimeDB, `${sectioFilter}/${date}`);
-          onValue(docRef, (snapshot) => {
-            const data = snapshot.val();
-            Object.entries(data).forEach(([id, value]) => {
-              Object.entries(value).forEach(([time, harvest]) => {
-                result.push({
-                  id,
-                  date,
-                  time,
-                  value: harvest
+        const fetchHarvestData = async (date) => {
+          return new Promise((resolve) => {
+            const docRef = ref(realTimeDB, `${sectioFilter}/${date}`);
+            onValue(docRef, (snapshot) => {
+              const data = snapshot.val();
+              const results = [];
+              if (data) {
+                Object.entries(data).forEach(([id, value]) => {
+                  Object.entries(value).forEach(([time, harvest]) => {
+                    results.push({
+                      id,
+                      date,
+                      time,
+                      value: harvest,
+                    });
+                  });
                 });
-              });
+              }
+              resolve(results);
             });
           });
-        });
-        setData(result);
+        };
+  
+        const promises = filteredDates.map((date) => fetchHarvestData(date));
+        const allResults = await Promise.all(promises);
+  
+        // Flatten the array of results
+        const finalResults = allResults.flat();
+  
+        setData(finalResults);
         setLoading(false);
       });
     }
@@ -113,7 +124,9 @@ const HarvestView = () => {
           />
         </div>
         <button
-          className="px-6 py-1 rounded-full text-sm font-medium bg-orange-100 w-24 h-10 mt-5 hover:bg-orange-200 duration-200"
+          className={`px-6 py-1 rounded-full text-sm font-medium bg-orange-100 w-24 h-10 mt-5 duration-200
+            ${dateFrom && dateTo && (operatorSection || section)? 'cursor-pointer hover:bg-orange-200 active:shadow-md' : 'cursor-not-allowed'}
+            `}
           onClick={handleFilterSubmit}
         >
           Filter
