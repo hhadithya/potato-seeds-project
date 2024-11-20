@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 import "../stylesheets/print.css";
 import { ref, update, set, get } from 'firebase/database';
 import { realTimeDB, db } from '../firebase/firebaseConfig'; 
@@ -6,6 +7,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { tokenGen, sendSMS } from '../BackendFunctions';
 
 const PassbookEntry = () => {
+  const {todayTotal, setTodayTotal} = useContext(UserContext);
   const [farmerId, setFarmerId] = useState('');
   const [farmerName, setFarmerName] = useState('');
   const [weight, setWeight] = useState('');
@@ -181,8 +183,8 @@ const PassbookEntry = () => {
       while(!smsStatus){
         console.log('SMS failed to send');
       };
+      setTodayTotal(todayTotal + parseFloat(parseFloat(accumualateWeight).toFixed(2)));
       handlePrint(); // Call print function
-      
 
       setMessage('Data successfully added!');
       setAccumualateWeight(0);
