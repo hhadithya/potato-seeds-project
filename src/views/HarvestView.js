@@ -42,32 +42,30 @@ const HarvestView = () => {
         const dates = snapshot.val();
         console.log(dates);
         
-        let filteredDates = dates.filter((date) => {
-          date = new Date(date).toISOString().split('T')[0];
+        let filteredDates = Object.values(dates).filter((date) => {
+          date = date.replaceAll("/", "-");
           return date >= dateFrom && date <= dateTo;
         });
-
-        filteredDates = filteredDates.sort();
+        console.log(filteredDates);
+        // filteredDates = filteredDates.sort();
         const result = [];
-        filteredDates.forEach((date) => {
+        filteredDates.forEach(async (date) => {
           const docRef = ref(realTimeDB, `${sectioFilter}/${date}`);
           onValue(docRef, (snapshot) => {
             const data = snapshot.val();
-            // console.log(data);
-            for (const id in data) {
-              for (const time in data[id]) {
+            Object.entries(data).forEach(([id, value]) => {
+              Object.entries(value).forEach(([time, harvest]) => {
                 result.push({
-                    id: id,
-                    date: date,
-                    time: time,
-                    weight: data[id][time]
+                  id,
+                  date,
+                  time,
+                  value: harvest
                 });
-              }
-            }
-            setData(result);
-            console.log(result);
+              });
+            });
           });
         });
+        setData(result);
         setLoading(false);
       });
     }

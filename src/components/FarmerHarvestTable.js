@@ -3,6 +3,7 @@ import { farmerHarvestDetails } from '../firebase/firebaseFunctions';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { getDecryptedUserRole } from '../Encrypt';
+import Spinner from '../components/Spinner';
 
 const FarmerHarvestTable = () => {
   const id = useParams().id;
@@ -12,6 +13,7 @@ const FarmerHarvestTable = () => {
   const [operatorSection, setOperatorSection] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setOperatorSection(section || operatorSection);
@@ -28,10 +30,15 @@ const FarmerHarvestTable = () => {
   };
 
   const handleFilterSubmit = async () => {
+    setLoading(true);
     if (dateFrom && dateTo) {
-      console.log(id);
-      farmerHarvestDetails({id, dateFrom, dateTo, operatorSection});
+      if (role !== "Admin"){
+        setOperatorSection(section);
+      }
+      setHarvestData(await farmerHarvestDetails({ id, dateFrom, dateTo, operatorSection }));
+      console.log("harvestData:", harvestData);
     }
+    setLoading(false);
   }
 
 
@@ -76,44 +83,53 @@ const FarmerHarvestTable = () => {
           />
         </div>
         <button
-          className="px-6 py-1 rounded-full text-sm font-medium bg-orange-100 w-24 h-10 mt-5 hover:bg-orange-200 duration-200"
+          className={`px-6 py-1 rounded-full text-sm font-medium bg-orange-100 w-24 h-10 mt-5  duration-200
+              ${dateFrom && dateTo && operatorSection? 'cursor-pointer hover:bg-orange-200 active:shadow-md' : 'cursor-not-allowed'}
+            `}
           onClick={handleFilterSubmit}
         >
           Filter
         </button>
       </div>
-      <div className="overflow-x-auto flex flex-col justify-center items-center mt-5">
-        <table className="table-auto border-collapse border border-gray-300 w-4/5 text-left">
-          <thead className="bg-orange-50 text-base text-gray-800">
-            <tr>
-              <th className="border border-gray-300 p-2 font-medium">Date</th>
-              <th className="border border-gray-300 p-2 font-medium">Time</th>
-              <th className="border border-gray-300 p-2 font-medium">Weight</th>
-            </tr>
-          </thead>
-          <tbody className="text-sm font-normal">
-            <tr>
-              <td className="border border-gray-300 p-2 font-medium" colSpan="2">Total Harvest</td>
-              <td className="border border-gray-300 p-2 font-medium">
-                {/* {(harvestData.reduce((total, item) => total + item.value, 0).toFixed(2))} kg */}
-              </td>
-            </tr>
-            {harvestData.length > 0 ? (
-              harvestData.map((item, index) => (
-                <tr key={index}>
-                  <td className="border border-gray-300 p-2">{item.date}</td>
-                  <td className="border border-gray-300 p-2">{item.time}</td>
-                  <td className="border border-gray-300 p-2">{item.value} kg</td>
-                </tr>
-              ))
-            ) : (
+      {loading ? (
+        <div className="flex justify-center items-center">
+          <Spinner />
+        </div>
+      ): (
+        <div className="overflow-x-auto flex flex-col justify-center items-center mt-5">
+          <table className="table-auto border-collapse border border-gray-300 w-4/5 text-left">
+            <thead className="bg-orange-50 text-base text-gray-800">
               <tr>
-                <td className="border border-gray-300 p-2 text-red-700" colSpan="3">No data available</td>
+                <th className="border border-gray-300 p-2 font-medium">Date</th>
+                <th className="border border-gray-300 p-2 font-medium">Time</th>
+                <th className="border border-gray-300 p-2 font-medium">Weight</th>
               </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="text-sm font-normal">
+              <tr>
+                <td className="border border-gray-300 p-2 font-medium" colSpan="2">Total Harvest</td>
+                <td className="border border-gray-300 p-2 font-medium">
+                  {(harvestData.reduce((total, item) => total + item.value, 0).toFixed(2))} kg
+                </td>
+              </tr>
+              {harvestData.length > 0 ? (
+                harvestData.map((item, index) => (
+                  <tr key={index}>
+                    <td className="border border-gray-300 p-2">{item.date}</td>
+                    <td className="border border-gray-300 p-2">{item.time}</td>
+                    <td className="border border-gray-300 p-2">{item.value} kg</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td className="border border-gray-300 p-2 text-red-700" colSpan="3">No data available</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
+        
     </>
   );
 };

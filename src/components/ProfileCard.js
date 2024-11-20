@@ -251,7 +251,7 @@ const ProfileCard = () => {
             </div>
             {role === 'Admin' && (
                 <button
-                    className="ml-16 px-6 py-1 rounded-full text-sm font-medium bg-orange-100 w-20 h-10 mb-2 hover:bg-orange-200 duration-200"
+                    className="ml-16 px-6 py-1 rounded-full text-sm font-medium bg-orange-100 w-20 h-10 mb-2 hover:bg-orange-200 duration-200 active:shadow-md"
                     onClick={toggleEdit}
                 >
                     {isEditing ? 'Save' : 'Edit'}

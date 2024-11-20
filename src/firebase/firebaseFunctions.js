@@ -90,20 +90,44 @@ export const getHarvestData = async ({section}) => {
 
 };
 
-export const farmerHarvestDetails = async ({id, dateFrom, dateTo, section}) => {
+export const farmerHarvestDetails = async ({id, dateFrom, dateTo, operatorSection}) => {
   const farmerDocRef = doc(db, "farmers", id);
   const farmerDoc = await getDoc(farmerDocRef);
-  const inDates = farmerDoc.data()["in-dates"];
+  console.log(operatorSection.toLowerCase() +"dates");
+  const inDates = farmerDoc.data()[operatorSection.toLowerCase() +"-dates"];
   console.log("inDates:", inDates);
 
   const filteredDates = inDates.filter((date) => {
-    date = new Date(date).toISOString().split('T')[0];
+    date = date.replaceAll("/", "-");
     console.log("date:", date);
     return date >= dateFrom && date <= dateTo;
+  });
+  try{
+    const farmerHarvest = [];
+    const sectionData = operatorSection;
+    for (let date of filteredDates) {
+      const dateRef = ref(realTimeDB, `${sectionData}/${date}/${id}`);
+      const snapshot = await get(dateRef);
+      const data = snapshot.val();
+      console.log("data:", data);
+
+      if(data){
+        Object.entries(data).forEach(([time, harvest]) => {
+          farmerHarvest.push({
+            date,
+            time,
+            value: harvest
+          });
+        });
+      }
+    }
+    console.log("farmerHarvest:", farmerHarvest);
+    return farmerHarvest;
+  } catch (error) {
+    console.error("Error fetching farmer harvest details:", error);
   }
-  );
-  console.log("filteredDates:", filteredDates);
 }
+
 
 export const operatorCheck = async (role, email) => {
   try{

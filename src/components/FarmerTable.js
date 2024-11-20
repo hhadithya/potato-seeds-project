@@ -4,7 +4,7 @@ const FarmerTable = ({ data }) => {
     // Calculate total weight
     let totalWeight = 0;
     data.forEach((item) => {
-      totalWeight += item.weight;
+      totalWeight += item.value;
     });
 
     // Pagination logic
@@ -51,7 +51,7 @@ const FarmerTable = ({ data }) => {
                   <td className="border border-gray-300 p-2">{item.id}</td>
                   <td className="border border-gray-300 p-2">{item.date}</td>
                   <td className="border border-gray-300 p-2">{item.time}</td>
-                  <td className="border border-gray-300 p-2">{item.weight} kg</td>
+                  <td className="border border-gray-300 p-2">{item.value} kg</td>
                 </tr>
               ))
             ) : (

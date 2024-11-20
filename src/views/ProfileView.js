@@ -25,7 +25,7 @@ const ProfileView = () => {
           </div>
           <hr className='h-px my-4 bg-gray-200 border-0 dark:bg-gray-700' />
           <div className='flex flex-col shadow-amber-500 p-5 mt-10'>
-            <h1 className='text-lg font-medium text-center'>Monthly Harvesting</h1>
+            <h1 className='text-lg font-medium text-center'>Harvesting Details</h1>
             <FarmerHarvestTable />
           </div>
       </div>
