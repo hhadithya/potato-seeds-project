@@ -10,16 +10,19 @@ export const getHarvestData = async ({filterSection}) => {
     // Initialize Firebase database reference
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
-    const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2 digits
+    const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const currentDay = currentDate.getDate().toString().padStart(2, '0');
     const basePath = `${filterSection}/${currentYear}/${currentMonth}`;
 
     // Initialize results
     let totalHarvestThisMonth = 0;
     let totalHarvestThisYear = 0;
-    let totalHarvestPerMonth = new Array(12).fill(0); // For each month of the year
+    let totalHarvestPerMonth = new Array(12).fill(0);
     let farmerTopYear = {};
+    let farmerTopMonth = {};
     let topFarmerThisMonth = null;
     let maxHarvestThisMonth = 0;
+    let totalHarvestThisDay = 0;
 
     // Get the month data
     const monthRef = ref(realTimeDB, basePath);
@@ -40,16 +43,19 @@ export const getHarvestData = async ({filterSection}) => {
         // Loop through each time key under the day
           for (const timeKey in idData) {
             const harvestValue = idData[timeKey];
+
+            if (day === currentDay) {
+              totalHarvestThisDay += harvestValue;
+            }
             // console.log(timeKey);
             // Accumulate monthly total
             totalHarvestThisMonth += harvestValue;
 
-            // Track top farmer (if farmer ID is relevant, adapt logic here)
-            if (!farmerTopYear[id]) farmerTopYear[id] = 0;
-            farmerTopYear[id] += harvestValue;
+            if (!farmerTopMonth[id]) farmerTopMonth[id] = 0;
+            farmerTopMonth[id] += harvestValue;
 
-            if (farmerTopYear[id] > maxHarvestThisMonth) {
-              maxHarvestThisMonth = farmerTopYear[id];
+            if (farmerTopMonth[id] > maxHarvestThisMonth) {
+              maxHarvestThisMonth = farmerTopMonth[id];
               topFarmerThisMonth = id;
             }
           }
@@ -82,6 +88,9 @@ export const getHarvestData = async ({filterSection}) => {
 
               // Accumulate per-month totals
               totalHarvestPerMonth[monthIndex] += harvestValue;
+
+              if (!farmerTopYear[id]) farmerTopYear[id] = 0;
+              farmerTopYear[id] += harvestValue;
             }
           }
         }
@@ -91,6 +100,7 @@ export const getHarvestData = async ({filterSection}) => {
     return {
       totalHarvestThisYear,       // Total harvest for the year
       totalHarvestThisMonth,      // Total harvest for the current month
+      totalHarvestThisDay,        // Total harvest for the current day
       totalHarvestPerMonth,       // Array of total harvests for each month
       farmerTopYear,              // Object of total harvests per farmer for the year
       topFarmerThisMonth,         // Key of the farmer with the max harvest this month

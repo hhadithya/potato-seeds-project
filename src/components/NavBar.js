@@ -3,13 +3,12 @@ import { UserContext } from '../context/UserContext';
 import { getDecryptedUserRole } from '../Encrypt';
 
 const Navbar = ({title}) => {
-  const { userRole, userName, section,todayTotal } = useContext(UserContext);
+  const { userRole, userName, section } = useContext(UserContext);
   const [role, setRole] = useState('');
 
   useEffect(() => {
-    console.log(todayTotal);
     setRole(getDecryptedUserRole(userRole));
-  }, [userRole, todayTotal]); 
+  }, [userRole]); 
 
   return (
     <div className="fixed top-0 left-72 w-10/12 bg-white p-4 z-50 shadow-sm">

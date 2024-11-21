@@ -12,7 +12,7 @@ import { getDecryptedUserRole } from '../Encrypt';
 
 
 const Dashboard = () => {
-  const { userRole, section, todayTotal } = useContext(UserContext);
+  const { userRole, section } = useContext(UserContext);
   const [farmerCount, setFarmerCount] = useState(0);
   const [yearHarvest, setYearHarvest] = useState(0);
   const [monthHarvest, setMonthHarvest] = useState(0);
@@ -24,6 +24,7 @@ const Dashboard = () => {
   const [topMonthHarvest, setTopMonthHarvest] = useState(0);
   const [role, setRole] = useState('');
   const [ operatorSection, setOperatorSection ] = useState('In'); 
+  const [todayTotal, setTodayTotal] = useState(0);
 
   const [topMonthProfile, settopMonthProfile] = useState({
     farmerId: '',
@@ -42,10 +43,10 @@ const Dashboard = () => {
     try {
       const filterSection = section || operatorSection;
       const result = await getHarvestData({ filterSection });
-      console.log(result);
-      console.log(result.farmerTopYear);
-      console.log(result.topFarmerThisMonth);
-      console.log(result.maxHarvestThisMonth );
+      // console.log(result);
+      // console.log(result.farmerTopYear);
+      // console.log(result.topFarmerThisMonth);
+      // console.log(result.maxHarvestThisMonth );
 
       const maxKey = Object.entries(result.farmerTopYear).reduce((max, [key, value]) =>
         value > result.farmerTopYear[max] ? key : max
@@ -61,11 +62,12 @@ const Dashboard = () => {
 
       setYearHarvest(result.totalHarvestThisYear.toFixed(2));
       setMonthHarvest(result.totalHarvestThisMonth.toFixed(2));
+      setTodayTotal(result.totalHarvestThisDay.toFixed(2));
       setHarvestArray(result.totalHarvestPerMonth);
-      setLoading(false); // Data fetched, set loading to false
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching harvest data:', error);
-      setLoading(false); // Handle errors and stop spinner
+      setLoading(false);
     }
   }, [section, operatorSection]);
 
@@ -94,7 +96,9 @@ const Dashboard = () => {
 
   const handleChangeSection = (e) => {
     setOperatorSection(e.target.value);
-    fetchHarvestData();
+    setLoading(true); 
+    // fetchHarvestData();
+    // setLoading(false);
   }
 
   const stats = [
@@ -152,7 +156,7 @@ const Dashboard = () => {
         ) : (
           <>
           {(((section === 'In') || ((role === "Admin") && (operatorSection === "In"))) ) && (
-              <div className='flex justify-center gap-12 mt-10 mb-5'>
+              <div className='flex justify-center gap-12 mt-12 mb-5'>
               <Card
                 id={topYearId}
                 name={topYearProfile.fullName}

@@ -83,6 +83,7 @@ const RegisterForm = () => {
         "mobileNumber" : "+94 " + formData.mobileNumber,
         imageUrl: downloadURL,
         "c-weight": 0,
+        "cOutWeight": 0,
         "line-num":1,
         "print-line": 1,
         "GND": formData.GND.charAt(0).toUpperCase() + formData.GND.slice(1),
@@ -253,8 +254,8 @@ const RegisterForm = () => {
               <label htmlFor="female" className="text-sm font-medium">Female</label>
             </div>
           </div>
-          <button type="submit" className={`w-full bg-orange-100 px-3 py-2 rounded-lg text-base font-medium rounded-full hover:bg-orange-200 duration-200
-            ${enableButton ? 'hover:bg-orange-200 cursor-pointer' : 'opacity-50 cursor-not-allowed'}
+          <button type="submit" className={`w-full bg-orange-200 px-3 py-2 rounded-lg text-base font-medium rounded-full duration-200
+            ${enableButton ? 'hover:bg-orange-300 active:shadow-md' : 'opacity-50 cursor-not-allowed'}
             `}>Register</button>
         </div>
         <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 p-5 rounded-lg h-96">

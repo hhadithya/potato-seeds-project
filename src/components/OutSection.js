@@ -3,30 +3,24 @@ import "../stylesheets/print.css";
 import { ref, update, set, get } from 'firebase/database';
 import { realTimeDB, db } from '../firebase/firebaseConfig'; 
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { tokenGen, sendSMS } from '../BackendFunctions';
 
-const PassbookEntry = () => {
+const OutSection = () => {
   const [farmerId, setFarmerId] = useState('');
   const [farmerName, setFarmerName] = useState('');
   const [weight, setWeight] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [lineNumber, setLineNumber] = useState();
-  const [lineNumberChange, setLineNumberChange] = useState();
   const [cWeight, setCWeight] = useState();
   const [cWeightChange, setCWeightChange] = useState();
-  const [checkState, setCheckState] = useState(false);
-  const [printLine, setPrintLine] = useState();
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [enableWeight, setEnableWeight] = useState(true);
   const [accumualateWeight, setAccumualateWeight] = useState(0);
   const [checkWeight, setCheckWeight] = useState(true);
-  const [number, setNumber] = useState('');
-  const [transactionID, setTransactionID] = useState('');
-  const [inDates, setInDates] = useState([]);
+  const [outDates, setOutDates] = useState([]);
+  const [cInWeight, setCInWeight] = useState();
 
   // Function to fetch farmer's name from Firestore using farmerId
   const fetchFarmerName = async (id) => {
@@ -44,16 +38,11 @@ const PassbookEntry = () => {
           }
           setError('');
           setMessage("Farmer found!");
-          // console.log('Farmer data:', docSnap.data());
           setFarmerName(docSnap.data().fullName);
-          setLineNumberChange(docSnap.data()["line-num"]);
-          setLineNumber(docSnap.data()["line-num"]);
-          setCWeight(docSnap.data()["c-weight"]);
-          setPrintLine(docSnap.data()["print-line"]);
-          setInDates(docSnap.data()["in-dates"]);
-          // console.log(docSnap.data()["in-dates"]);
-          setNumber(docSnap.data().mobileNumber);
-          setTransactionID(docSnap.data().transactionID);
+          setCWeight(docSnap.data()["cOutWeight"]);
+          const cIn = docSnap.data()["c-weight"];
+          setCInWeight(cIn);
+          setOutDates(docSnap.data()["out-dates"]);
         } else {
           setMessage('');
           setIsButtonDisabled(true);
@@ -66,7 +55,7 @@ const PassbookEntry = () => {
       }
     } else {
       setEnableWeight(true); 
-      setFarmerName(''); // Clear name if farmerId is cleared
+      setFarmerName('');
     }
   };
 
@@ -107,81 +96,53 @@ const PassbookEntry = () => {
     // console.log(accumualateWeight);
   };
 
-
-  const handleCheckState = () => {
-    if (checkState === true) {
-      setLineNumberChange(lineNumber);
-    } else {
-      setLineNumberChange(1);
-    }
-
-    setCheckState(!checkState);
-  }
-
   const handleAddEntry = async () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); 
     const day = currentDate.getDate().toString().padStart(2, '0'); 
 
-    const farmerRef = ref(realTimeDB, `In/${year}/${month}/${day}/${farmerId}`);
+    const farmerRef = ref(realTimeDB, `Out/${year}/${month}/${day}/${farmerId}`);
 
-    const inDatesRef = ref(realTimeDB, "In/In-dates");
+    const outDatesRef = ref(realTimeDB, "Out/Out-dates");
 
     const docRef = doc(db, 'farmers', farmerId);
     setLoading(true);
     
       try {
         const newDate = `${year}/${month}/${day}`;
-        const snapshot = await get(inDatesRef);
-        let newInDates = {};
+        const snapshot = await get(outDatesRef);
+        let newOutDates = {};
         if (snapshot.exists()) {
-          newInDates = snapshot.val();
+          newOutDates = snapshot.val();
         }
   
         // Check if the date already exists
-        if (Object.values(newInDates).includes(newDate)) {
+        if (Object.values(newOutDates).includes(newDate)) {
           console.log('Date already exists in the list.');
         } else{
           let newKey = 0;
-          while (newInDates.hasOwnProperty(newKey)) {
+          while (newOutDates.hasOwnProperty(newKey)) {
             newKey++;
           }
-          newInDates[newKey] = newDate;
-          await set(inDatesRef, newInDates);
+          newOutDates[newKey] = newDate;
+          await set(outDatesRef, newOutDates);
         }
 
         await update(farmerRef, {
           [time]: parseFloat(parseFloat(accumualateWeight).toFixed(2)),
         });
-        // console.log(inDates);
-        if (inDates.includes(newDate) === false) {
-          inDates.push(newDate);
+        // console.log(outDates);
+        if (outDates.includes(newDate) === false) {
+          outDates.push(newDate);
         }
 
         await updateDoc(docRef, {
-          "line-num": lineNumberChange + 1,
-          "c-weight": parseFloat(parseFloat(cWeightChange).toFixed(2)),
-          "print-line": printLine + 1,
-          "in-dates": inDates,
-          transactionID: transactionID + 1
+          "cOutWeight": parseFloat(parseFloat(cWeightChange).toFixed(2)),
+          "out-dates": outDates,
       });
 
       // console.log('Data successfully added!');
-      await tokenGen();
-      const smsStatus = await sendSMS({
-        number: number.slice(4),
-        ID: farmerId,
-        name: farmerName,
-        weight: parseFloat(parseFloat(accumualateWeight).toFixed(2)),
-        date: date,
-        time: time,
-        transaction_id: transactionID
-      })
-      while(!smsStatus){
-        console.log('SMS failed to send');
-      };
-      handlePrint(); // Call print function
 
       setMessage('Data successfully added!');
       setAccumualateWeight(0);
@@ -189,7 +150,6 @@ const PassbookEntry = () => {
       setDate('');
       setTime('');
       setIsButtonDisabled(true);
-      setCheckState(false);
 
 
     } catch (error) {
@@ -199,25 +159,6 @@ const PassbookEntry = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handlePrint = () => {
-    window.print(); // Trigger print dialog
-
-    // Clear form fields after printing
-    setFarmerId('');
-    setFarmerName('');
-    setWeight('');
-    setDate('');
-    setTime('');
-    setIsButtonDisabled(true);
-    setCheckState(false);
-    setEnableWeight(true);
-  };
-
-  const calculateMargin = () => { 
-    // if (lineNumber === 20 || lineNumber === 21) return `${-125 + (lineNumber - 19) * 3}px`;
-    return `${15 + parseInt(lineNumberChange) * 15}px` 
   };
 
   useEffect(() => {
@@ -289,48 +230,32 @@ const PassbookEntry = () => {
         </div>
       </div>
 
-      <div className="flex mb-6 font-normal items-center"
-        style={{marginTop: "-1 rem"}}
-      >
-        <input
-          type="checkbox"
-          className='w-4 h-4 text-orange-600 text-base bg-orange-100 border-orange-300 rounded focus:ring-white cursor-pointer transition duration-100'  
-          onClick={handleCheckState}
-          checked={checkState}
-          // defaultChecked={checkState}
-        />
-        <label className="mr-6 text-sm text-orange-400">&nbsp;&nbsp;Start printing from a new page</label>
-      </div>
-
       {/* Passbook Entry Preview */}
       {true ? (
         <div 
           className="mb-4 text-sm text-gray-500 bg-gray-50 p-4 rounded border font-normal w-3/4 flex-col print-area"   
         >
           <span className="text-xs" style={{fontFamily:"passBookFont"}}>
-            This will be printed on passbook<br/>
-            ---------------------------------------------------
+            Current Harvest Outing<br/>
+            --------------------------------------
           </span>
           <p 
             className='grid grid-cols-5 text-center text- mt-3 mb-2'
           >
-            <span style={{fontFamily:"passBookFont"}} className="text-xs">Line No</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">Date</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">Time</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">Weight(kg)</span>
-            <span style={{fontFamily:"passBookFont"}} className="text-xs">Cumulative Weight(kg)</span>
+            <span style={{fontFamily:"passBookFont"}} className="text-xs">Cumulative Out(kg)</span>
+            <span style={{fontFamily:"passBookFont"}} className="text-xs">Remaining + Wastage(kg)</span>
           </p>
           <p 
             className='grid grid-cols-5 row-1 text-center justify-center text-xs mt-3 mb-2 print-text'
-            style={{
-              '--dynamic-margin': calculateMargin(lineNumber),
-            }}
           >
-            <span style={{fontFamily:"passBookFont"}} className="text-xs">{printLine || "-"}</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{date || "-"}</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{time || "-" }</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{parseFloat(accumualateWeight).toFixed(2)}</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{isNaN(parseFloat(cWeightChange).toFixed(2)) ? "0.00": parseFloat(cWeightChange).toFixed(2)}</span>
+            <span style={{fontFamily:"passBookFont"}} className="text-xs">{cInWeight - cWeightChange || "0.00"}</span>
           </p>
         </div>
       ): null}
@@ -349,4 +274,4 @@ const PassbookEntry = () => {
   );
 };
 
-export default PassbookEntry;
+export default OutSection;

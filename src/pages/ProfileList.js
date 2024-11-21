@@ -64,8 +64,8 @@ const ProfileList = () => {
             placeholder="Search by ID"
             value={searchId}
             onChange={handleSearchChange}
-            className="text-sm font-normal p-2 text-gray-700 border border-gray-300 rounded-md w-32 z-50 focus:ring-amber-400 focus:border-amber-500"
-            style={{ marginTop: '-0.4rem', outline: 'none'}}
+            className="text-sm font-normal pl-2 py-1 w-32 text-gray-700 border rounded-md z-50 focus:ring-amber-400 focus:border-amber-500"
+            style={{ marginTop: '-0.1rem', outline: 'none'}}
           />
         </div>
 
