@@ -43,20 +43,20 @@ const HarvestView = () => {
   
     if (dateFrom && dateTo) {
       setLoading(true);
-      console.log(operatorSection);
+      // console.log(operatorSection);
 
       const sectioFilter = operatorSection || section;
 
       const dateRef = ref (realTimeDB, `${sectioFilter}/${sectioFilter}-dates`);
       onValue(dateRef, async (snapshot) => {
         const dates = snapshot.val();
-        console.log(dates);
+        // console.log(dates);
         
         let filteredDates = Object.values(dates).filter((date) => {
           date = date.replaceAll("/", "-");
           return date >= dateFrom && date <= dateTo;
         });
-        console.log(filteredDates);
+        // console.log(filteredDates);
         const fetchHarvestData = async (date) => {
           return new Promise((resolve) => {
             const docRef = ref(realTimeDB, `${sectioFilter}/${date}`);

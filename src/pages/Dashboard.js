@@ -136,21 +136,22 @@ const Dashboard = () => {
       <div className='p-7 text-2xl font-semibold flex-1'>
       <div className="flex justify-between items-center float-right mr-48">
         { role === 'Admin' && (
-        <select
+          <select
             id="operatorSection"
             name="operatorSection"
+            value={operatorSection}
             onChange={handleChangeSection}
             className="z-50 text-sm font-normal border rounded pl-2 py-1 w-32 text-gray-600 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-            style={{ marginTop: '-0.4rem', outline: 'none'}}
+            style={{ marginTop: '-0.4rem', outline: 'none' }}
           >
-          <option value="In" selected>Harvest In</option>
-          <option value="Out">Harvest Out</option>
-        </select>
+            <option value="In">Harvest In</option>
+            <option value="Out">Harvest Out</option>
+          </select>
         )}
         </div>
         {/* Spinner */}
         {loading ? (
-          <div className="flex justify-center items-center h-full">
+          <div className="flex justify-center items-center h-full w-full">
             <Spinner />
           </div>
         ) : (

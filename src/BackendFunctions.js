@@ -57,13 +57,13 @@ export const sendAdminSMS = async ({ dateFrom, dateTo, totalWeight }) => {
 
     let adminNumbers = [];
     const transaction_id = smsSnapshot.data().transaction_id;
-    console.log(transaction_id);
-    console.log(dateFrom, dateTo, totalWeight);
+    // console.log(transaction_id);
+    // console.log(dateFrom, dateTo, totalWeight);
 
     adminSnapshot.forEach((doc) => {
         adminNumbers.push(doc.data().mobileNumber.slice(3));
     });
-    console.log(adminNumbers);
+    // console.log(adminNumbers);
 
     try {
         const response = await fetch(`${backendURL}/api/send-admin-sms`, {

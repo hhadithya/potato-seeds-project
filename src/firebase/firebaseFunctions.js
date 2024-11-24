@@ -6,7 +6,7 @@ import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firesto
 
 // Dashboard stats
 export const getHarvestData = async ({filterSection}) => {
-  console.log(filterSection);
+  // console.log(filterSection);
   try {
     // Initialize Firebase database reference
     const currentDate = new Date();
@@ -31,7 +31,7 @@ export const getHarvestData = async ({filterSection}) => {
 
     if (snapshot.exists()) {
       const monthData = snapshot.val();
-      console.log("monthData:", monthData);
+      // console.log("monthData:", monthData);
 
       // Loop through each day in the month
       for (const day in monthData) {
@@ -116,9 +116,9 @@ export const getHarvestData = async ({filterSection}) => {
 export const farmerHarvestDetails = async ({id, dateFrom, dateTo, operatorSection}) => {
   const farmerDocRef = doc(db, "farmers", id);
   const farmerDoc = await getDoc(farmerDocRef);
-  console.log(operatorSection.toLowerCase() +"dates");
+  // console.log(operatorSection.toLowerCase() +"dates");
   const inDates = farmerDoc.data()[operatorSection.toLowerCase() +"-dates"];
-  console.log("inDates:", inDates);
+  // console.log("inDates:", inDates);
 
   const filteredDates = inDates.filter((date) => {
     date = date.replaceAll("/", "-");
@@ -132,7 +132,7 @@ export const farmerHarvestDetails = async ({id, dateFrom, dateTo, operatorSectio
       const dateRef = ref(realTimeDB, `${sectionData}/${date}/${id}`);
       const snapshot = await get(dateRef);
       const data = snapshot.val();
-      console.log("data:", data);
+      // console.log("data:", data);
 
       if(data){
         Object.entries(data).forEach(([time, harvest]) => {
@@ -144,7 +144,7 @@ export const farmerHarvestDetails = async ({id, dateFrom, dateTo, operatorSectio
         });
       }
     }
-    console.log("farmerHarvest:", farmerHarvest);
+    // console.log("farmerHarvest:", farmerHarvest);
     return farmerHarvest;
   } catch (error) {
     console.error("Error fetching farmer harvest details:", error);
@@ -195,7 +195,7 @@ export const updateCWeight = async ({id, cWeight, operatorSection}) => {
         "c-weight": cWeight,
       });
     }else{
-      console.log("cWeight:", cWeight);
+      // console.log("cWeight:", cWeight);
       await updateDoc(farmerDocRef, {
         "cOutWeight": cWeight,
       });

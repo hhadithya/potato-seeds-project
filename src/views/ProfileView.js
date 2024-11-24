@@ -2,14 +2,14 @@ import React from 'react';
 import Sidebar from '../components/Sidebar';
 import NavBar from '../components/NavBar';
 import ProfileCard from '../components/ProfileCard';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import FarmerHarvestTable from '../components/FarmerHarvestTable';
 
 const ProfileView = () => {
 
-  const location = useLocation();
+  // const location = useLocation();
 
-  console.log(location.pathname.slice(0,8));
+  // console.log(location.pathname.slice(0,8));
 
   return (
     <div className='flex h-screen'>

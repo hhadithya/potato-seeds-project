@@ -32,7 +32,7 @@ const ProfileCard = () => {
 
     useEffect(() => {
         setRole(getDecryptedUserRole(userRole));
-        console.log(userRole);
+        // console.log(userRole);
         setLoading(true);
 
         const fetchFarmerData = async () => {
@@ -72,7 +72,6 @@ const ProfileCard = () => {
         setLoadMessage("Updating Data");
         setLoading(true);
         const docRef = doc(db, 'farmers', id);
-        console.log("okay");
 
         try {
             if (image){

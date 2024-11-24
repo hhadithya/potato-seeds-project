@@ -34,10 +34,11 @@ const DefectCard = () => {
       setcWeight(newCWeight);
     }
 
-    const status = await updateCWeight({id: farmerId, cWeight: newCWeight, operatorSection: operatorSection});
+    // const status = await updateCWeight({id: farmerId, cWeight: newCWeight, operatorSection: operatorSection});
+    await updateCWeight({id: farmerId, cWeight: newCWeight, operatorSection: operatorSection});
   
     try {
-     console.log("status:", status);
+    //  console.log("status:", status);
       const snapshot = await get(docRef);
       
       // snapshot.exists --> true
@@ -51,7 +52,7 @@ const DefectCard = () => {
         }else{
           lastTimeStamp = new Date().toTimeString().slice(0, 8);
         }
-        console.log("lastTimeStamp:", lastTimeStamp);
+        // console.log("lastTimeStamp:", lastTimeStamp);
         updates[`${lastTimeStamp}`] = parseFloat(parseFloat(weightUpdate).toFixed(2));
         await set(docRef, updates);
         setLoading(false);

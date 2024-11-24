@@ -179,7 +179,7 @@ const AddSection = () => {
         transaction_id: transactionID
       })
       while(!smsStatus){
-        // console.log('SMS failed to send');
+        console.log('SMS failed to send');
         continue;
       };
       handlePrint(); // Call print function

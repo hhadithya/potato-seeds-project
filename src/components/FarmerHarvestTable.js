@@ -38,13 +38,13 @@ const FarmerHarvestTable = () => {
         setOperatorSection(section);
       }
       setHarvestData(await farmerHarvestDetails({ id, dateFrom, dateTo, operatorSection }));
-      console.log("harvestData:", harvestData);
+      // console.log("harvestData:", harvestData);
     }
     setLoading(false);
   }
 
   const handleDownload = () => {
-    console.log("harvest",harvestData);
+    // console.log("harvest",harvestData);
     downloadExcel({ data:harvestData, dateFrom, dateTo, id });
   };
 

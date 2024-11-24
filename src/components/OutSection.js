@@ -119,7 +119,7 @@ const OutSection = () => {
   
         // Check if the date already exists
         if (Object.values(newOutDates).includes(newDate)) {
-          console.log('Date already exists in the list.');
+          // console.log('Date already exists in the list.');
         } else{
           let newKey = 0;
           while (newOutDates.hasOwnProperty(newKey)) {
