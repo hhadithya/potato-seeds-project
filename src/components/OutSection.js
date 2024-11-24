@@ -255,7 +255,7 @@ const OutSection = () => {
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{time || "-" }</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{parseFloat(accumualateWeight).toFixed(2)}</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{isNaN(parseFloat(cWeightChange).toFixed(2)) ? "0.00": parseFloat(cWeightChange).toFixed(2)}</span>
-            <span style={{fontFamily:"passBookFont"}} className="text-xs">{cInWeight - cWeightChange || "0.00"}</span>
+            <span style={{fontFamily:"passBookFont"}} className="text-xs">{isNaN(parseFloat(cInWeight - cWeightChange).toFixed(2)) ? "0.00": parseFloat(cInWeight - cWeightChange).toFixed(2)}</span>
           </p>
         </div>
       ): null}

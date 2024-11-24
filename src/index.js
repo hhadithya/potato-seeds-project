@@ -12,6 +12,7 @@ import AddHarvest from './pages/AddHarvest';
 import ProfileView from './views/ProfileView';
 import HarvestOut from './pages/HarvestOut';
 import { UserProvider } from './context/UserContext';
+import DefectsHandle from './pages/DefectsHandle';
 
 const rootElement = document.getElementById('root');
 
@@ -38,6 +39,7 @@ root.render(
           <Route path="/addHarvest" element={<AddHarvest />} />
           <Route path="/outHarvest" element={<HarvestOut />} />
           <Route path="/profile/:id" element={<ProfileView />} />
+          <Route path="/defects" element={<DefectsHandle />} />
         </Routes>
       </Router>
     </UserProvider>

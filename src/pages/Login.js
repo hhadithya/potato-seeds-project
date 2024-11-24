@@ -69,7 +69,7 @@ function Login() {
           {/* Background overlay */}
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-16">
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-16 pt-16">
         <form className="w-full max-w-md" onSubmit={handleLogin}>
           <h2 className="text-3xl font-bold mb-1">Potato Seeds Portal</h2>
           <p className="text-sm text-gray-600 mb-6">Harvest Management System</p>
@@ -151,6 +151,7 @@ function Login() {
             <button type="submit" className="w-full py-2 px-4 bg-amber-800 text-white font-semibold rounded-full hover:bg-amber-900 duration-200">Login</button>
           </div>
         </form>
+        <img src="/assets/images/logo_bar_transparent.png" alt="sidebar" className="hidden md:block w-60 absolute bottom-5 h-auto" />
       </div>
     </div>
   );

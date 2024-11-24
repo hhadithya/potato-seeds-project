@@ -1,3 +1,5 @@
+import * as XLSX from 'xlsx';
+
 const backendURL = 'https://soursop-backend.vercel.app';
 // const backendURL = 'http://192.168.1.76:5000';
 
@@ -9,10 +11,12 @@ export const tokenGen = async () => {
                 'Content-Type': 'application/json',
             }
         });
-        const result = await response.json();
-        console.log(result);
+        await response.json();
+        // const result = await response.json();
+        // console.log(result);
     } catch (error) {
-        console.error('Error generating token: ', error);
+        return;
+        // console.error('Error generating token: ', error);
     }
 };
 
@@ -33,11 +37,11 @@ export const sendSMS = async ({ number, ID, name, weight, date, time, transactio
                 transaction_id: transaction_id
             }),
         });
-        const result = await responce.json();
-        console.log(result);
+        await responce.json();
+        // console.log(result);
         return 1;
     } catch (error) {
-        console.error('Error sending mail: ', error);
+        // console.error('Error sending mail: ', error);
         return 0;
     }
 };
@@ -96,3 +100,11 @@ export const sendSMS = async ({ number, ID, name, weight, date, time, transactio
 //         console.error('Error deleting role: ', error);
 //     }
 // }
+
+export const downloadExcel = ({data}) => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Harvest Data');
+
+    XLSX.writeFile(workbook, 'HarvestData.xlsx');
+  };

@@ -46,27 +46,22 @@ const Sidebar = () => {
 
   return (
     <div className="flex">
-    <div className={`${open ? 'w-72' : 'w-20'} duration-300 h-screen p-5 pt-8 relative bg-orange-200`}>
+    <div className={`${open ? 'w-72' : 'w-20'} duration-300 h-screen p-5 pt-6 relative bg-orange-200`}>
       {/* <IoIosArrowBack
         className={`absolute cursor-pointer -right-3 p-1 top-9 w-7 h-7 border-2 rounded-full border-green-200 ${!open && 'transform rotate-180'}`}
         style={{ color: "#052e16" }}
         onClick={() => setOpen(!open)}
       /> */}
-        <div className={`flex gap-x-1 items-center ${open && "justify-center"}`}>
-        <img
-          src='/assets/images/logo.png'
-          alt='avatar'
-          className={`cursor-pointer duration-500 w-20`}
-        />
+        <div className={`ml-3 ${open && "justify-center"}`}>
           <h1
-            className={`origin-left font-semibold text-xl duration-200 ${
+            className={`origin-left font-normal text-xl duration-200 ${
               !open && "scale-0"
             }`}
           >
             Potato Seeds Portal
           </h1>
         </div>
-        <ul className="pt-6 space-y-2">
+        <ul className="pt-4 space-y-2">
         {Menus.filter(menu => role === 'Admin' || !menu.section || menu.section === section).map((Menu, index) => (
             <li
               key={index}
@@ -83,7 +78,7 @@ const Sidebar = () => {
             </li>
           ))}
         </ul>
-        <ul className={`${role === "Admin" ? "pt-8" : (section === "Out" ?"pt-44": "pt-32")} space-y-2 ml-1`}>
+        <ul className={`${role === "Admin" ? "pt-4" : (section === "Out" ?"pt-36": "pt-28")} space-y-2 ml-1`}>
           <li
             className="flex gap-x-3 items-center p-2 rounded-md hover:bg-orange-100 text-sm font-medium cursor-pointer"
             onClick={handleLogout}
@@ -94,7 +89,9 @@ const Sidebar = () => {
             <span className={`${!open && 'hidden'} origin-left duration-200`}>Logout</span>
           </li>
         </ul>
+        <img src="/assets/images/logo_bar_transparent.png" alt="sidebar" className="pl-2 absolute w-60 bottom-3 hidden md:block h-auto" />
       </div>
+      
     </div>
   );
 };

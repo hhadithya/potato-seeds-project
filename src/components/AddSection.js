@@ -5,7 +5,7 @@ import { realTimeDB, db } from '../firebase/firebaseConfig';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { tokenGen, sendSMS } from '../BackendFunctions';
 
-const PassbookEntry = () => {
+const AddSection = () => {
   const [farmerId, setFarmerId] = useState('');
   const [farmerName, setFarmerName] = useState('');
   const [weight, setWeight] = useState('');
@@ -71,6 +71,7 @@ const PassbookEntry = () => {
   };
 
   const handleIdChange = (e) => {
+    clearFields();
     const id = e.target.value;
     
     setFarmerId(id);
@@ -108,14 +109,13 @@ const PassbookEntry = () => {
   };
 
 
-  const handleCheckState = () => {
+  const handleCheckState = (e) => {
+    setCheckState(e.target.checked);
     if (checkState === true) {
       setLineNumberChange(lineNumber);
     } else {
       setLineNumberChange(1);
     }
-
-    setCheckState(!checkState);
   }
 
   const handleAddEntry = async () => {
@@ -141,7 +141,7 @@ const PassbookEntry = () => {
   
         // Check if the date already exists
         if (Object.values(newInDates).includes(newDate)) {
-          console.log('Date already exists in the list.');
+          // console.log('Date already exists in the list.');
         } else{
           let newKey = 0;
           while (newInDates.hasOwnProperty(newKey)) {
@@ -179,19 +179,13 @@ const PassbookEntry = () => {
         transaction_id: transactionID
       })
       while(!smsStatus){
-        console.log('SMS failed to send');
+        // console.log('SMS failed to send');
+        continue;
       };
       handlePrint(); // Call print function
 
       setMessage('Data successfully added!');
-      setAccumualateWeight(0);
-      setWeight('');
-      setDate('');
-      setTime('');
-      setIsButtonDisabled(true);
-      setCheckState(false);
-
-
+      clearFields();
     } catch (error) {
       console.error('Error adding document: ', error);
       setError('Error registering farmer.');
@@ -199,6 +193,17 @@ const PassbookEntry = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const clearFields = () => {
+    setAccumualateWeight(0);
+    setPrintLine();
+    setCWeightChange();
+    setWeight('');
+    setDate('');
+    setTime('');
+    setIsButtonDisabled(true);
+    setCheckState(false);
   };
 
   const handlePrint = () => {
@@ -295,9 +300,9 @@ const PassbookEntry = () => {
         <input
           type="checkbox"
           className='w-4 h-4 text-orange-600 text-base bg-orange-100 border-orange-300 rounded focus:ring-white cursor-pointer transition duration-100'  
-          onClick={handleCheckState}
+          onChange={handleCheckState}
+          // checked={checkState}
           checked={checkState}
-          // defaultChecked={checkState}
         />
         <label className="mr-6 text-sm text-orange-400">&nbsp;&nbsp;Start printing from a new page</label>
       </div>
@@ -349,4 +354,4 @@ const PassbookEntry = () => {
   );
 };
 
-export default PassbookEntry;
+export default AddSection;

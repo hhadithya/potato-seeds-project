@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import NavBar from '../components/NavBar';
-import PassbookEntry from '../components/PassbookEntry';
+import AddSection from '../components/AddSection';
 
 const Dashboard = () => {
   useEffect(() => {
@@ -16,7 +16,7 @@ const Dashboard = () => {
       </div>
       <div className='w-72'></div>
       <div className='p-7 text-2xl font-semibold flex-1'>
-        <PassbookEntry />
+        <AddSection />
       </div>
     </div>
   );

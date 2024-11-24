@@ -1,4 +1,5 @@
 import { ref, get } from 'firebase/database';
+import { updateDoc } from 'firebase/firestore';
 import { realTimeDB } from '../firebase/firebaseConfig';
 import { db } from '../firebase/firebaseConfig';
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore'; 
@@ -171,3 +172,38 @@ export const operatorCheck = async (role, email) => {
   }
 }
 
+export const fetchFarmerData = async ({id}) => {
+  try {
+    const farmerDocRef = doc(db, "farmers", id);
+    if (farmerDocRef) {
+      const farmerDoc = await getDoc(farmerDocRef);
+      return farmerDoc.data();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching farmer data:", error);
+    throw error;
+  }
+}   
+
+export const updateCWeight = async ({id, cWeight, operatorSection}) => {
+  try {
+    const farmerDocRef = doc(db, "farmers", id);
+    if (operatorSection === "In") {
+      await updateDoc(farmerDocRef, {
+        "c-weight": cWeight,
+      });
+    }else{
+      console.log("cWeight:", cWeight);
+      await updateDoc(farmerDocRef, {
+        "cOutWeight": cWeight,
+      });
+    }
+
+    return 0;
+  } catch (error) {
+    console.error("Error updating cWeight:", error);
+    return "Error updating Cumulative Weight";
+  }
+}
