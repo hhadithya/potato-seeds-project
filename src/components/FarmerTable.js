@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 
-const FarmerTable = ({ data }) => {
-    // Calculate total weight
-    let totalWeight = 0;
-    data.forEach((item) => {
-      totalWeight += item.value;
-    });
+const FarmerTable = ({ data, totalWeight }) => {
 
     // Pagination logic
     const rowsPerPage = 20; // Rows per page

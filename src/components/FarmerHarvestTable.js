@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { getDecryptedUserRole } from '../Encrypt';
 import Spinner from '../components/Spinner';
+import { downloadExcel } from '../BackendFunctions';
+
 
 const FarmerHarvestTable = () => {
   const id = useParams().id;
@@ -41,6 +43,10 @@ const FarmerHarvestTable = () => {
     setLoading(false);
   }
 
+  const handleDownload = () => {
+    console.log("harvest",harvestData);
+    downloadExcel({ data:harvestData, dateFrom, dateTo, id });
+  };
 
   return (
     <>
@@ -90,7 +96,23 @@ const FarmerHarvestTable = () => {
         >
           Filter
         </button>
+        {(harvestData.length > 0 && role === "Admin") && (         
+            <button
+              onClick={handleDownload}
+              className="mt-5 rounded-full bg-orange-100 w-14 h-10 duration-200 cursor-pointer hover:bg-orange-200 active:shadow-md"
+              style={{ marginLeft: "-1.2rem" }}
+              title='Download Excel'
+            >
+              <img
+                src="/assets/images/download.svg"
+                alt="Download Report"
+                className="w-5 h-5 ml-4"
+                style={{ marginLeft: "1.1rem" }}
+              />
+            </button>
+      )}
       </div>
+
       {loading ? (
         <div className="flex justify-center items-center">
           <Spinner />

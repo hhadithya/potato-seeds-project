@@ -6,6 +6,7 @@ import Spinner from '../components/Spinner';
 import { UserContext } from '../context/UserContext';
 import { getDecryptedUserRole } from '../Encrypt';
 import { downloadExcel } from '../BackendFunctions';
+import { sendAdminSMS, tokenGen } from '../BackendFunctions';
 
 const HarvestView = () => {
   const [role, setRole] = useState('');
@@ -15,6 +16,14 @@ const HarvestView = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [operatorSection, setOperatorSection] = useState('');
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+
+  let totalWeight = 0;
+
+  data.forEach((item) => {
+    totalWeight += item.value;
+  });
 
   const handleDateChange = (e) => {
     if (e.target.id === 'dateFrom') {
@@ -84,11 +93,46 @@ const HarvestView = () => {
   }
 
   const handleDownload = () => {
-    downloadExcel({ data });
+    downloadExcel({ data, dateFrom, dateTo, id:null });
   };
 
+  const handleMessage = async () => {
+    setMessage('Sending SMS...');
+    await tokenGen();
+    const smsStatus = await sendAdminSMS({
+      dateFrom,
+      dateTo,
+      totalWeight
+    })
+    while(!smsStatus){
+      setError('Error sending SMS.Retrying...');
+      continue;
+    };
+    setMessage('SMS Sent Successfully');
+  };
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError('');
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage('');
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 mt-5">
+      {error && <div className="text-center text-sm mb-10 w-full p-3 bg-red-100  font-medium text-red-700 rounded" style={{marginTop: "-1.5rem"}}>{error}</div>}
+      {message && <div className="text-center text-sm mb-10 w-full p-3 bg-orange-100  font-medium text-orange-700 rounded" style={{marginTop: "-1.5rem"}}>{message}</div>}
       {/* Date Filters */}
       <div className="flex justify-center gap-8 mb-6 items-center mb-10">
       {role === 'Admin'  && (
@@ -136,31 +180,39 @@ const HarvestView = () => {
         >
           Filter
         </button>
+      </div>
 
-      {data.length > 0 && (         
-        <div className="relative flex items-center justify-center">
-        {/* Button */}
-        <button
-          onClick={handleDownload}
-          className="group mt-5 rounded-full bg-orange-100 w-11 h-10 duration-200 cursor-pointer hover:bg-orange-200 active:shadow-md"
-          style={{ marginLeft: "-1.2rem" }}
-        >
-          <img
-            src="/assets/images/download.svg"
-            alt="Download Excel"
-            className="w-5 h-5 ml-3"
-          />
-        </button>
-      
-        {/* Tooltip */}
-        {/* <div className="group-hover:block hidden absolute mb-16 w-28 text-center text-[10px] text-black font-normal bg-gray-100 rounded shadow-sm">
-          Download Excel
-        </div> */}
-      </div>
-      
-      
+      {(data.length > 0 && role === "Admin") && (         
+          <div className="relative flex items-center left-32 w-1/2">
+            <button
+              onClick={handleDownload}
+              className="rounded-full bg-orange-100 w-14 h-10 duration-200 cursor-pointer hover:bg-orange-200 active:shadow-md"
+              style={{ marginLeft: "-1.2rem" }}
+              title='Download Excel'
+            >
+              <img
+                src="/assets/images/download.svg"
+                alt="Download Report"
+                className="w-5 h-5 ml-4"
+                style={{ marginLeft: "1.1rem" }}
+              />
+            </button>
+
+            <button
+              onClick={handleMessage}
+              className="rounded-full bg-orange-100 w-14 h-10 duration-200 cursor-pointer hover:bg-orange-200 active:shadow-md"
+              style={{ marginLeft: "0.5rem" }}
+              title='Send Message'
+            >
+              <img
+                src="/assets/images/sendSMS.svg"
+                alt="Send SMS"
+                className="w-5 h-5 ml-4"
+                style={{ marginLeft: "1.1rem" }}
+              />
+            </button>
+        </div>
       )}
-      </div>
 
 
 
@@ -168,7 +220,7 @@ const HarvestView = () => {
       {loading ? (
         <Spinner />
       ) : (
-        <FarmerTable data={data} />
+        <FarmerTable data={data} totalWeight={totalWeight} />
       )}
     </div>
   );
