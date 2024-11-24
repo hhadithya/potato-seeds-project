@@ -45,7 +45,7 @@ const FarmerHarvestTable = () => {
 
   const handleDownload = () => {
     // console.log("harvest",harvestData);
-    downloadExcel({ data:harvestData, dateFrom, dateTo, id });
+    downloadExcel({ data:harvestData, dateFrom, dateTo, id, section: operatorSection });
   };
 
   return (

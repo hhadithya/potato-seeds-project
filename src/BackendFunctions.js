@@ -146,14 +146,50 @@ export const sendAdminSMS = async ({ dateFrom, dateTo, totalWeight }) => {
 //     }
 // }
 
-export const downloadExcel = ({data, dateFrom, dateTo, id}) => {
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Harvest Data');
+export const downloadExcel = ({ data, dateFrom, dateTo, id, section }) => {
+    const selectedColumns = (item) => ({
+        "Farmer ID": item.id,
+        "Full Name": item.fullName,
+        "Gender": item.gender,
+        "Mobile Number": item.mobileNumber,
+        "DS": item.DS,
+        "GND": item.GND,
+        "NIC Number": item.nicNumber,
+        "Cumulative In": item['c-weight'],
+        "Cumulative Out": item['cOutWeight'],
+    });
 
-    if(id){
-        XLSX.writeFile(workbook, 'FarmerHarvestData_'+ id + '(' + dateFrom + ' to ' + dateTo + ').xlsx');
-    }else{
-        XLSX.writeFile(workbook, 'HarvestData(' + dateFrom + ' to ' + dateTo + ').xlsx');
+    const selectedHarvestColumns = (item) => ({
+        "Farmer ID": item.id,
+        "Date": item.date,
+        "Time": item.time,
+        "Weight": item.value,
+    });
+
+    const selectedFarmerHarvestColumns = (item) => ({
+        "Date": item.date,
+        "Time": item.time,
+        "Weight": item.value,
+    });
+  
+    const processedData = section === 'Farmer Profiles' 
+      ? data.map(selectedColumns) 
+      : id ? data.map(selectedFarmerHarvestColumns): data.map(selectedHarvestColumns);
+
+    const worksheet = XLSX.utils.json_to_sheet(processedData);
+    const workbook = XLSX.utils.book_new();
+  
+    if (section === 'Farmer Profiles') {
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Farmer Profile Data');
+      XLSX.writeFile(workbook, 'Farmer Profile List.xlsx');
+      return;
     }
-};
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Harvest Data');
+    const fileName = id
+      ? `FarmerHarvest${section}Data_${id}(${dateFrom} to ${dateTo}).xlsx`
+      : `Harvest${section}Data(${dateFrom} to ${dateTo}).xlsx`;
+  
+    XLSX.writeFile(workbook, fileName);
+  };
+  

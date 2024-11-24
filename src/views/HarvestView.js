@@ -18,6 +18,7 @@ const HarvestView = () => {
   const [operatorSection, setOperatorSection] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [timeOut, setTimeOut] = useState(10000);
 
   let totalWeight = 0;
 
@@ -93,22 +94,43 @@ const HarvestView = () => {
   }
 
   const handleDownload = () => {
-    downloadExcel({ data, dateFrom, dateTo, id:null });
+    downloadExcel({ data, dateFrom, dateTo, id:null, section: operatorSection });
   };
 
   const handleMessage = async () => {
     setMessage('Sending SMS...');
-    await tokenGen();
-    const smsStatus = await sendAdminSMS({
-      dateFrom,
-      dateTo,
-      totalWeight
-    })
-    while(!smsStatus){
-      setError('Error sending SMS.Retrying...');
-      continue;
-    };
-    setMessage('SMS Sent Successfully');
+    let retryCount = 0;
+    const maxRetries = 5;
+    
+    try {
+      await tokenGen();
+  
+      let smsStatus = false;
+      while (!smsStatus && retryCount < maxRetries) {
+        smsStatus = await sendAdminSMS({
+          dateFrom,
+          dateTo,
+          totalWeight,
+        });
+        
+        if (!smsStatus) {
+          retryCount++;
+          setError(`Error sending SMS. Retrying (${retryCount}/${maxRetries})...`);
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+        }
+      }
+  
+      if (smsStatus) {
+        setTimeOut(2000);
+        setMessage('SMS Sent Successfully');
+      } else {
+        setError('Failed to send SMS after multiple attempts.');
+        setMessage('');
+      }
+    } catch (error) {
+      setError('An unexpected error occurred.');
+      setMessage('');
+    }
   };
 
   useEffect(() => {
@@ -124,10 +146,10 @@ const HarvestView = () => {
     if (message) {
       const timer = setTimeout(() => {
         setMessage('');
-      }, 2000);
+      }, timeOut);
       return () => clearTimeout(timer);
     }
-  }, [message]);
+  }, [message, timeOut]);
 
   return (
     <div className="container mx-auto p-4 mt-5">

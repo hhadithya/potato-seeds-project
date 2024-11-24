@@ -64,7 +64,7 @@ function Login() {
 
   return (
     <div className="flex h-screen">
-      <div className="hidden md:flex md:w-4/5 bg-cover bg-center relative" style={{ backgroundImage: "url('/assets/images/1.jpg')" }}>
+      <div className="hidden md:flex md:w-4/5 bg-cover bg-center relative" style={{ backgroundImage: "url('/assets/images/back.webp')" }}>
         <div className="absolute inset-0 bg-black bg-opacity-10 flex items-center justify-center">
           {/* Background overlay */}
         </div>

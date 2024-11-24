@@ -122,7 +122,7 @@ export const farmerHarvestDetails = async ({id, dateFrom, dateTo, operatorSectio
 
   const filteredDates = inDates.filter((date) => {
     date = date.replaceAll("/", "-");
-    console.log("date:", date);
+    // console.log("date:", date);
     return date >= dateFrom && date <= dateTo;
   });
   try{
@@ -207,3 +207,4 @@ export const updateCWeight = async ({id, cWeight, operatorSection}) => {
     return "Error updating Cumulative Weight";
   }
 }
+

@@ -5,8 +5,11 @@ import { db } from '../firebase/firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Spinner from '../components/Spinner';
+import { getDecryptedUserRole } from '../Encrypt';
+import { downloadExcel } from '../BackendFunctions';
 
 const ProfileList = () => {
+  const role = getDecryptedUserRole(localStorage.getItem('userRole'));
   const [farmers, setFarmers] = useState([]);
   const [searchId, setSearchId] = useState('');
   const [loading, setLoading] = useState(true); // State to handle loading
@@ -24,7 +27,7 @@ const ProfileList = () => {
         const farmersList = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-        }));
+        })); 
         setFarmers(farmersList);
         setLoading(false); // Stop loading when data is fetched
       },
@@ -49,6 +52,10 @@ const ProfileList = () => {
     farmer.id.includes(searchId)
   );
 
+  const handleDownload = () => {
+    downloadExcel({data: farmers, section:'Farmer Profiles'});
+  };
+
   return (
     <div className="flex">
       <NavBar title="Farmer Profiles" />
@@ -64,10 +71,27 @@ const ProfileList = () => {
             placeholder="Search by ID"
             value={searchId}
             onChange={handleSearchChange}
-            className="text-sm font-normal pl-2 py-1 w-32 text-gray-700 border rounded-md z-50 focus:ring-amber-400 focus:border-amber-500"
+            className="text-sm font-normal pl-2 w-32 text-gray-700 border rounded-md z-50 focus:ring-amber-400 focus:border-amber-500"
             style={{ marginTop: '-0.1rem', outline: 'none'}}
           />
         </div>
+        {(role === "Admin") && (         
+          <div className="absolute right-0 z-50" style={{marginTop: "-0.2rem", right: "22.5rem"}}>
+            <button
+              onClick={handleDownload}
+              className="rounded-full border z-50 focus:ring-amber-400 w-14 h-10 cursor-pointer hover:bg-orange-200 active:shadow-md"
+              style={{ marginLeft: "-1.2rem" }}
+              title='Download Farmer List'
+            >
+              <img
+                src="/assets/images/download.svg"
+                alt="Download Report"
+                className="w-5 h-5 ml-4"
+                style={{ marginLeft: "1.1rem" }}
+              />
+            </button>
+          </div>
+        )}
 
         {/* Loading Spinner */}
         {loading ? (
@@ -80,17 +104,23 @@ const ProfileList = () => {
             <table className="w-11/12 table-auto text-sm">
               <thead className="bg-orange-100">
                 <tr>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 tracking-wider">
+                  <th className="px-5 py-3 text-left text-sm font-medium text-gray-700 tracking-wider">
                     Profile
                   </th>
-                  <th className="px-10 py-3 text-left text-sm font-medium text-gray-700 tracking-wider">
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 tracking-wider">
                     ID
                   </th>
-                  <th className="px-10 py-3 text-left text-sm font-medium text-gray-700 tracking-wider">
+                  <th className="px-9 py-3 text-left text-sm font-medium text-gray-700 tracking-wider">
                     Name
                   </th>
                   <th className="px-10 py-3 text-left text-sm font-medium text-gray-700 tracking-wider">
                     Mobile Number
+                  </th>
+                  <th className="px-8 py-3 text-left text-sm font-medium text-gray-700 tracking-wider">
+                    DS
+                  </th>
+                  <th className="px-8 py-3 text-left text-sm font-medium text-gray-700 tracking-wider">
+                    GND
                   </th>
                 </tr>
               </thead>
@@ -101,23 +131,29 @@ const ProfileList = () => {
                     className="hover:bg-gray-50 cursor-pointer"
                     onClick={() => handleRowClick(farmer.id)}
                   >
-                    <td className="px-10 py-3 whitespace-nowrap">
+                    <td className="px-7 py-3 whitespace-nowrap">
                       <img
                         src={farmer.imageUrl}
                         alt={farmer.fullName}
                         className="w-6 h-6 rounded-full object-cover"
                       />
                     </td>
-                    <td className="px-10 py-3 whitespace-nowrap">
+                    <td className="px-6 py-3 whitespace-nowrap">
                       {farmer.id}
                     </td>
-                    <td className="px-10 py-3 whitespace-nowrap">
+                    <td className="px-9 py-3 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
                         {farmer.fullName}
                       </div>
                     </td>
                     <td className="px-10 py-3 whitespace-nowrap">
                       {farmer.mobileNumber}
+                    </td>
+                    <td className="px-8 py-3 whitespace-nowrap">
+                      {farmer.DS}
+                    </td>
+                    <td className="px-8 py-3 whitespace-nowrap">
+                      {farmer.GND}
                     </td>
                   </tr>
                 ))}
