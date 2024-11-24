@@ -150,7 +150,13 @@ const OutSection = () => {
       setDate('');
       setTime('');
       setIsButtonDisabled(true);
-
+      setCWeightChange(0);
+      setCheckWeight(true);
+      setFarmerId('');
+      setFarmerName('');
+      setEnableWeight(true);
+      setOutDates([]);
+      setCInWeight(0);
 
     } catch (error) {
       console.error('Error adding document: ', error);
@@ -255,7 +261,7 @@ const OutSection = () => {
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{time || "-" }</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{parseFloat(accumualateWeight).toFixed(2)}</span>
             <span style={{fontFamily:"passBookFont"}} className="text-xs">{isNaN(parseFloat(cWeightChange).toFixed(2)) ? "0.00": parseFloat(cWeightChange).toFixed(2)}</span>
-            <span style={{fontFamily:"passBookFont"}} className="text-xs">{isNaN(parseFloat(cInWeight - cWeightChange).toFixed(2)) ? "0.00": parseFloat(cInWeight - cWeightChange).toFixed(2)}</span>
+            <span style={{fontFamily:"passBookFont"}} className="text-xs" id='remain'>{isNaN(parseFloat(cInWeight - cWeightChange).toFixed(2)) ? "0.00": parseFloat(cInWeight - cWeightChange).toFixed(2)}</span>
           </p>
         </div>
       ): null}
