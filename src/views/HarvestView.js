@@ -27,6 +27,13 @@ const HarvestView = () => {
   });
 
   const handleDateChange = (e) => {
+    const todayDate = new Date().toISOString().split('T')[0];
+
+    if (e.target.value > todayDate) {
+      setError('Date cannot be in the future');
+      return;
+    }
+
     if (e.target.id === 'dateFrom') {
       setDateFrom(e.target.value);
     }

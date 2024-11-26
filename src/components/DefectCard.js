@@ -72,6 +72,14 @@ const DefectCard = () => {
   
 
   const handleDateChange = useCallback(async (e) => {
+
+      const todayDate = new Date().toISOString().split('T')[0];
+
+      if (e.target.value > todayDate) {
+        setError('Date cannot be in the future');
+        return;
+      }
+
       setDateUpdate(e.target.value);
       const date = e.target.value.replaceAll("-", "/");
       const docRef = ref(realTimeDB, `${operatorSection}/${date}/${farmerId}`);

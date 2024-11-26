@@ -16,6 +16,7 @@ const FarmerHarvestTable = () => {
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setOperatorSection(section || operatorSection);
@@ -23,6 +24,13 @@ const FarmerHarvestTable = () => {
   }, [userRole, section, operatorSection]);
 
   const handleDateChange = (e) => {
+
+    const todayDate = new Date().toISOString().split('T')[0];
+    if (e.target.value > todayDate) {
+      setError('Date cannot be in the future');
+      return;
+    }
+
     if (e.target.id === 'dateFrom') {
       setDateFrom(e.target.value);
     }
@@ -48,9 +56,19 @@ const FarmerHarvestTable = () => {
     downloadExcel({ data:harvestData, dateFrom, dateTo, id, section: operatorSection });
   };
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError('');
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   return (
     <>
-      <div className="flex justify-center gap-8 mb-6 items-center mt-10">
+      {error && <div className="text-center text-sm w-full p-3 bg-red-100 font-medium text-red-700 rounded mt-10" style={{marginTop: "1rem", marginBottom: "-0.3rem"}}>{error}</div>}
+      <div className="flex justify-center gap-8 mb-6 items-center mt-8">
       {role === 'Admin'  && (
             <div className="flex flex-col w-36">
               <label className="text-gray-600 text-sm font-medium">Section</label>
