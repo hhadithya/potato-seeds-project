@@ -151,7 +151,7 @@ function Login() {
             <button type="submit" className="w-full py-2 px-4 bg-amber-800 text-white font-semibold rounded-full hover:bg-amber-900 duration-200">Login</button>
           </div>
         </form>
-        <img src="/assets/images/logo_bar_transparent.png" alt="sidebar" className="hidden md:block w-60 absolute bottom-5 h-auto" />
+        <img src="/assets/images/logo_bar_transparent.webp" alt="sidebar" className="hidden md:block w-60 absolute bottom-5 h-auto" />
       </div>
     </div>
   );

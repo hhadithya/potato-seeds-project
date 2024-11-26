@@ -68,8 +68,16 @@ const RegisterForm = () => {
         await uploadBytes(imageRef, image);
         var downloadURL = await getDownloadURL(imageRef);
       } else{
-        downloadURL = "https://firebasestorage.googleapis.com/v0/b/potato-seeds-project.appspot.com/o/images%2Fuser.jpg?alt=media&token=6ebe93c2-4a47-4ecd-8dc1-2b797d2da8f0 "; 
+        const downloadURLMale = "https://firebasestorage.googleapis.com/v0/b/potato-seeds-project.appspot.com/o/images%2FMaleFarmer.webp?alt=media&token=e1443ebf-36e8-4cb2-b803-88e183959d99"; 
+        const downloadURLFemale = "https://firebasestorage.googleapis.com/v0/b/potato-seeds-project.appspot.com/o/images%2FFemalFarmer.webp?alt=media&token=d12bbaf0-381d-4adf-bd58-be714e1d37b9"; 
+        
+        if (formData.gender === "Male"){
+          downloadURL = downloadURLMale;
+        }else{
+          downloadURL = downloadURLFemale;
+        }
       }
+      
 
       var nicType = document.getElementById('nicType').value;
       if (nicType === "New"){

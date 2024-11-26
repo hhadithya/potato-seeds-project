@@ -80,7 +80,7 @@ const Sidebar = () => {
         </ul>
         <ul className={`${role === "Admin" ? "pt-4" : (section === "Out" ?"pt-36": "pt-28")} space-y-2 ml-1`}>
           <li
-            className="flex gap-x-3 items-center p-2 rounded-md hover:bg-orange-100 text-sm font-medium cursor-pointer"
+            className="absolute bottom-28 flex gap-x-3 items-center p-2 rounded-md hover:bg-orange-100 text-sm font-medium cursor-pointer"
             onClick={handleLogout}
           >
             <span className="text-xl">
@@ -89,7 +89,7 @@ const Sidebar = () => {
             <span className={`${!open && 'hidden'} origin-left duration-200`}>Logout</span>
           </li>
         </ul>
-        <img src="/assets/images/logo_bar_transparent.png" alt="sidebar" className="pl-2 absolute w-60 bottom-3 hidden md:block h-auto" />
+        <img src="/assets/images/logo_bar_transparent.webp" alt="sidebar" className="pl-2 absolute w-60 bottom-5 hidden md:block h-auto" />
       </div>
       
     </div>

@@ -12,12 +12,9 @@
       visibility: hidden;
     }
     .print-text{
-      /* text-align: left; */
       top: var(--dynamic-margin, 15);
       width: 450px;
       margin-left: -170px;
-      /* justify-content: center; */
-      /* margin-top: 0px; */
       position: absolute;
     }
     
@@ -25,7 +22,6 @@
       
       display: flex;
       justify-content: right;
-      /* justify-content: space-evenly; */
       /* margin-top: -110px; */
       /* margin-top: var(--dynamic-margin, -410px); */
       visibility: visible;
@@ -41,7 +37,6 @@
     .print-text span:nth-child(4){
       margin-right: 15px;
     }
-    /* Hide default browser headers and footers */
     @page {
       margin: 0;
     }
