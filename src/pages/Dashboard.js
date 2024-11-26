@@ -141,7 +141,7 @@ const Dashboard = () => {
             name="operatorSection"
             value={operatorSection}
             onChange={handleChangeSection}
-            className="z-50 text-sm font-normal border rounded pl-2 py-1 w-32 text-gray-600 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+            className="fixed right-56 top-7 z-50 text-sm font-normal border rounded pl-2 py-1 w-32 text-gray-600 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
             style={{ marginTop: '-0.4rem', outline: 'none' }}
           >
             <option value="In">Harvest In</option>
