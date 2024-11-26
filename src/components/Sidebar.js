@@ -80,7 +80,7 @@ const Sidebar = () => {
         </ul>
         <ul className={`${role === "Admin" ? "pt-4" : (section === "Out" ?"pt-36": "pt-28")} space-y-2 ml-1`}>
           <li
-            className="absolute bottom-28 flex gap-x-3 items-center p-2 rounded-md hover:bg-orange-100 text-sm font-medium cursor-pointer"
+            className="w-60 absolute bottom-28 flex gap-x-3 items-center p-2 rounded-md hover:bg-orange-100 text-sm font-medium cursor-pointer"
             onClick={handleLogout}
           >
             <span className="text-xl">
