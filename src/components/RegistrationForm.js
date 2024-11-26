@@ -69,7 +69,7 @@ const RegisterForm = () => {
         var downloadURL = await getDownloadURL(imageRef);
       } else{
         const downloadURLMale = "https://firebasestorage.googleapis.com/v0/b/potato-seeds-project.appspot.com/o/images%2FMaleFarmer.webp?alt=media&token=e1443ebf-36e8-4cb2-b803-88e183959d99"; 
-        const downloadURLFemale = "https://firebasestorage.googleapis.com/v0/b/potato-seeds-project.appspot.com/o/images%2FFemalFarmer.webp?alt=media&token=d12bbaf0-381d-4adf-bd58-be714e1d37b9"; 
+        const downloadURLFemale = "https://firebasestorage.googleapis.com/v0/b/potato-seeds-project.appspot.com/o/images%2FFemaleFarmer.webp?alt=media&token=c485c44f-b0be-4843-aa6d-7266898fb07a"; 
         
         if (formData.gender === "Male"){
           downloadURL = downloadURLMale;
