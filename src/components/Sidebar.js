@@ -46,7 +46,7 @@ const Sidebar = () => {
 
   return (
     <div className="flex">
-    <div className={`${open ? 'w-72' : 'w-20'} duration-300 h-screen p-5 pt-6 relative bg-orange-200`}>
+    <div className={`${open ? 'w-72' : 'w-20'} duration-300 h-screen p-5 pt-6 relative bg-gradient-to-r from-orange-100 to-orange-200`}>
       {/* <IoIosArrowBack
         className={`absolute cursor-pointer -right-3 p-1 top-9 w-7 h-7 border-2 rounded-full border-green-200 ${!open && 'transform rotate-180'}`}
         style={{ color: "#052e16" }}
