@@ -160,7 +160,7 @@ const ProfileCard = () => {
                             name="farmerId"
                             value={profileData.farmerId}
                             onChange={handleInputChange}
-                            className="w-40 font-medium text-sm border rounded px-2 py-1 mt-1 bg-gray-50 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                            className="w-40 font-normal text-sm border rounded px-2 py-1 mt-1 bg-gray-50"
                             readOnly
                         />
                     </div>
@@ -172,7 +172,7 @@ const ProfileCard = () => {
                             name="fullName"
                             value={profileData.fullName}
                             onChange={handleInputChange}
-                            className="w-40 font-medium text-sm border rounded px-2 py-1 mt-1 bg-gray-50 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                            className="w-40 font-normal text-sm border rounded px-2 py-1 mt-1 bg-gray-50"
                             readOnly
                         />
                     </div>
@@ -184,7 +184,7 @@ const ProfileCard = () => {
                             name="gender"
                             value={profileData.gender}
                             onChange={handleInputChange}
-                            className="w-40 font-medium text-sm border rounded px-2 py-1 mt-1 bg-gray-50 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                            className="w-40 font-normal text-sm border rounded px-2 py-1 mt-1 bg-gray-50 focus:outline-none"
                             readOnly
                         />
                     </div>
@@ -196,8 +196,8 @@ const ProfileCard = () => {
                             name="nicNumber"
                             value={profileData.nicNumber}
                             onChange={handleInputChange}
-                            className={`w-40 font-medium text-sm border rounded px-2 py-1 mt-1 focus:outline-none focus:ring-amber-500 focus:border-amber-500
-                                ${isEditing ? 'bg-white' : 'bg-gray-50'}
+                            className={`w-40 text-sm rounded px-2 py-1 mt-1 focus:outline-none focus:ring-amber-500 focus:border-amber-500
+                                ${isEditing ? 'bg-white font-medium border-2' : 'bg-gray-50 font-normal border-1'}
                             `}
                             readOnly={!isEditing}
                         />
@@ -212,8 +212,8 @@ const ProfileCard = () => {
                             name="mobileNumber"
                             value={profileData.mobileNumber}
                             onChange={handleInputChange}
-                            className={`w-40 font-medium text-sm border rounded px-2 py-1 mt-1 focus:outline-none focus:ring-amber-500 focus:border-amber-500
-                                ${isEditing ? 'bg-white' : 'bg-gray-50'}
+                            className={`w-40 text-sm rounded px-2 py-1 mt-1 focus:outline-none focus:ring-amber-500 focus:border-amber-500
+                                ${isEditing ? 'bg-white font-medium border-2' : 'bg-gray-50 font-normal border-1'}
                             `}
                             readOnly={!isEditing}
                         />
@@ -226,8 +226,8 @@ const ProfileCard = () => {
                             name="GND"
                             value={profileData.GND}
                             onChange={handleInputChange}
-                            className={`w-40 font-medium text-sm border rounded px-2 py-1 mt-1 focus:outline-none focus:ring-amber-500 focus:border-amber-500
-                                ${isEditing ? 'bg-white' : 'bg-gray-50'}
+                            className={`w-40 text-sm rounded px-2 py-1 mt-1 focus:outline-none focus:ring-amber-500 focus:border-amber-500
+                                ${isEditing ? 'bg-white font-medium border-2' : 'bg-gray-50 font-normal border-1'}
                             `}
                             readOnly={!isEditing}
                         />
@@ -240,8 +240,8 @@ const ProfileCard = () => {
                             name="DS"
                             value={profileData.DS}
                             onChange={handleInputChange}
-                            className={`w-40 font-medium text-sm border rounded px-2 py-1 mt-1 focus:outline-none focus:ring-amber-500 focus:border-amber-500
-                                ${isEditing ? 'bg-white' : 'bg-gray-50'}
+                            className={`w-40 text-sm rounded px-2 py-1 mt-1 focus:outline-none focus:ring-amber-500 focus:border-amber-500
+                                ${isEditing ? 'bg-white font-medium border-2' : 'bg-gray-50 font-normal border-1'}
                             `}
                             readOnly={!isEditing}
                         />
